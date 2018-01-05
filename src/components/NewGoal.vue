@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="500px">
+    <v-dialog v-model="dialog" persistent max-width="560px">
       <v-btn absolute dark fab right fixed bottom color="cyan lighten-2" slot="activator">
         <v-icon>add</v-icon>
       </v-btn>
@@ -19,6 +19,10 @@
                 </v-flex>
                 <v-flex xs12>
                     <v-text-field label="Subtitle" type="textbox" multi-line v-model="goal.subtitle"></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <label class="subheading grey--text">Conclusion</label>
+                  <v-date-picker color="cyan lighten-2" header-color="cyan lighten-2" v-model="goal.date" locale="en-US" landscape required></v-date-picker>
                 </v-flex>
                 </v-layout>
             </v-container>
@@ -44,7 +48,8 @@ export default {
         title: null,
         subtitle: null,
         state: "Active",
-        level: null
+        level: null,
+        date: null
       },
       levels: ["Daily", "Short", "Medium", "Long"]
     };
@@ -63,6 +68,7 @@ export default {
       this.goal.title = null;
       this.goal.subtitle = null;
       this.goal.level = null;
+      this.goal.date = null;
     }
   }
 };
@@ -71,5 +77,11 @@ export default {
 <style scoped>
 .btn--bottom.btn--absolute {
   bottom: 50px;
+}
+
+.date-label{
+    font-size: 16px;
+    color: #757575;
+    font-weight: 300;
 }
 </style>
