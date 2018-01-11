@@ -2,7 +2,7 @@
   <div id="app">
     <v-app>
       <v-navigation-drawer app clipped fixed v-model="drawer" class="grey lighten-2">
-        <v-list dense>
+          <v-list dense>
           <v-list-tile to="/Home">
             <v-list-tile-action>
               <v-icon>homel</v-icon>
