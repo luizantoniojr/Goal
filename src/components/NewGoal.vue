@@ -6,22 +6,22 @@
       <v-card>
         <form v-on:submit="save">
             <v-card-title>
-            <span class="headline">New goal</span>
+            <span class="headline">{{ $t('new_goal') }}</span>
             </v-card-title>
             <v-card-text>
             <v-container grid-list-md>
                 <v-layout wrap>
                 <v-flex xs12>
-                    <v-text-field label="Title" required v-model="goal.title"></v-text-field>
+                    <v-text-field v-bind:label="$t('title')" required v-model="goal.title"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-select v-bind:items="levels" v-model="goal.level" label="Level" required></v-select>
+                  <v-select v-bind:items="levels" item-text="text" item-value="value" v-model="goal.level" v-bind:label="$t('level')" required></v-select>
                 </v-flex>
                 <v-flex xs12>
-                    <v-text-field label="Subtitle" type="textbox" multi-line v-model="goal.subtitle"></v-text-field>
+                    <v-text-field v-bind:label="$t('subtitle')" type="textbox" multi-line v-model="goal.subtitle"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <label class="subheading grey--text">Conclusion</label>
+                  <label class="subheading grey--text">{{ $t('conclusion') }}</label>
                   <v-date-picker color="cyan lighten-2" header-color="cyan lighten-2" v-model="goal.date" locale="en-US" landscape required></v-date-picker>
                 </v-flex>
                 </v-layout>
@@ -29,8 +29,8 @@
             </v-card-text>
             <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat type="submit">Save</v-btn>
+            <v-btn color="blue darken-1" flat @click.native="dialog = false">{{ $t('close') }}</v-btn>
+            <v-btn color="blue darken-1" flat type="submit">{{ $t('save') }}</v-btn>
             </v-card-actions>
         </form>
       </v-card>
@@ -51,7 +51,7 @@ export default {
         level: null,
         date: null
       },
-      levels: ["Daily", "Short", "Medium", "Long"]
+      levels:this.$enum.getTextValue('levels')
     };
   },
   mounted: function() {

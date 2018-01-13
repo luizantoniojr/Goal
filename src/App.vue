@@ -5,10 +5,10 @@
           <v-list dense>
           <v-list-tile to="/Home">
             <v-list-tile-action>
-              <v-icon>homel</v-icon>
+              <v-icon>home</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{ $t('principal') }}</v-list-tile-title>
+              <v-list-tile-title>{{ $t('home') }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile to="/Goals">
@@ -16,7 +16,7 @@
               <v-icon>done_all</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>Goals</v-list-tile-title>
+              <v-list-tile-title>{{ $t('goals') }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile to="/Setting">
@@ -24,7 +24,7 @@
               <v-icon>settings</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>Setting</v-list-tile-title>
+              <v-list-tile-title>{{ $t('settings') }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
       </v-list>
@@ -48,7 +48,7 @@
       </v-container>
     </v-content>
     <v-footer app fixed>
-      <span>&copy; 2018</span>
+      <span>&copy;<a href="https://github.com/luizantoniojr/Goal">Goal</a> 2018</span>
     </v-footer>
     </v-app>
   </div>

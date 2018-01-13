@@ -5,13 +5,13 @@
         <v-toolbar color="cyan lighten-2" dark>
             <v-tabs-bar class="cyan lighten-2" >
               <v-tabs-slider color="yellow"></v-tabs-slider>
-              <v-tabs-item  v-for="(item, i) in levels" :key="i" :href="'#tab-' + item">
-                {{ item }}
+              <v-tabs-item  v-for="(item, i) in levels" :key="i" :href="'#tab-' + item.value">
+                {{ item.text }}
               </v-tabs-item>
             </v-tabs-bar>
         </v-toolbar>
         <v-tabs-items>
-          <v-tabs-content id="tab-Daily">
+          <v-tabs-content id="tab-1">
             <v-card v-show="dailyGoals.length > 0">
               <v-list two-line>
                 <template v-for="(goal, index) in dailyGoals">
@@ -21,7 +21,7 @@
               </v-list>
             </v-card>
           </v-tabs-content>
-          <v-tabs-content id="tab-Short">
+          <v-tabs-content id="tab-2">
             <v-card v-show="shortGoals.length > 0">
               <v-list two-line>
                 <template v-for="(goal, index) in shortGoals">
@@ -31,7 +31,7 @@
               </v-list>
             </v-card>
           </v-tabs-content>
-          <v-tabs-content id="tab-Medium">
+          <v-tabs-content id="tab-3">
             <v-card v-show="mediumGoals.length > 0">
               <v-list two-line>
                 <template v-for="(goal, index) in mediumGoals">
@@ -41,7 +41,7 @@
               </v-list>
             </v-card>
           </v-tabs-content>
-          <v-tabs-content id="tab-Long">
+          <v-tabs-content id="tab-4">
            <v-card v-show="longGoals.length > 0">
             <v-list two-line>
               <template v-for="(goal, index) in longGoals">
@@ -55,8 +55,8 @@
       </v-tabs>
     </v-flex>
     <v-snackbar v-model="snackbar" color="cyan lighten-2">
-      Add your first goal
-      <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
+      {{ $t('add_your_first_goal') }}
+      <v-btn dark flat @click.native="snackbar = false">{{ $t('close') }}</v-btn>
     </v-snackbar>
     <new-goal></new-goal>    
   </v-layout>
@@ -65,6 +65,7 @@
 <script>
 import NewGoal from "@/components/NewGoal";
 import Goal from "@/components/Goal";
+
 export default {
   name: "Goals",
   components: {
@@ -74,7 +75,7 @@ export default {
   data() {
     return {
       snackbar: false,
-      levels: ["Daily", "Short", "Medium", "Long"]
+      levels: this.$enum.getTextValue('levels')
     };
   },
   mounted: function() {
@@ -85,24 +86,23 @@ export default {
       return this.$store.state.goals;
     },
     dailyGoals() {
-      return this.$store.state.goals.filter(item => {
-        return item.level == "Daily";
-      });
+      return this.$store.state.goals.filter(this.checkLevel(this.$enum.levels.daily))
     },
     shortGoals() {
-      return this.$store.state.goals.filter(item => {
-        return item.level == "Short";
-      });
+      return this.$store.state.goals.filter(this.checkLevel(this.$enum.levels.short))
     },
     mediumGoals() {
-      return this.$store.state.goals.filter(item => {
-        return item.level == "Medium";
-      });
+      return this.$store.state.goals.filter(this.checkLevel(this.$enum.levels.medium))
     },
     longGoals() {
-      return this.$store.state.goals.filter(item => {
-        return item.level == "Long";
-      });
+      return this.$store.state.goals.filter(this.checkLevel(this.$enum.levels.long))
+    }
+  },
+  methods:{
+    checkLevel(level){
+        return item => {
+          return item.level == level
+        } 
     }
   }
 };
