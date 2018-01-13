@@ -1,10 +1,10 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="560px">
+    <v-dialog v-model="dialog"  max-width="560px">
       <v-btn absolute dark fab right fixed bottom color="cyan lighten-2" slot="activator">
         <v-icon>add</v-icon>
       </v-btn>
       <v-card>
-        <form v-on:submit="save">
+        <form v-on:submit="submit">
             <v-card-title>
             <span class="headline">{{ $t('new_goal') }}</span>
             </v-card-title>
@@ -12,26 +12,54 @@
             <v-container grid-list-md>
                 <v-layout wrap>
                 <v-flex xs12>
-                    <v-text-field v-bind:label="$t('title')" required v-model="goal.title"></v-text-field>
+                    <v-text-field
+                      v-bind:label="$t('title')"
+                      data-vv-name="title"
+                      v-validate="'required'"
+                      :error-messages="errors.collect('title')"
+                      v-model="goal.title">
+                    </v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-select v-bind:items="levels" item-text="text" item-value="value" v-model="goal.level" v-bind:label="$t('level')" required></v-select>
+                  <v-select 
+                    v-bind:items="levels" 
+                    item-text="text" 
+                    item-value="value" 
+                    v-model="goal.level" 
+                    v-bind:label="$t('level')" 
+                    data-vv-name="level"
+                    v-validate="'required'"
+                    :error-messages="errors.collect('title')"
+                    >
+                  </v-select>
                 </v-flex>
                 <v-flex xs12>
-                    <v-text-field v-bind:label="$t('subtitle')" type="textbox" multi-line v-model="goal.subtitle"></v-text-field>
+                    <v-text-field 
+                      v-bind:label="$t('subtitle')" 
+                      type="textbox" 
+                      multi-line 
+                      v-model="goal.subtitle">
+                    </v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <label class="subheading grey--text">{{ $t('conclusion') }}</label>
-                  <v-date-picker color="cyan lighten-2" header-color="cyan lighten-2" v-model="goal.date" locale="en-US" landscape required></v-date-picker>
+                  <v-date-picker 
+                    color="cyan lighten-2" 
+                    header-color="cyan lighten-2" 
+                    v-model="goal.date" 
+                    v-bind:locale="$store.state.culture" 
+                    landscape 
+                    required>
+                  </v-date-picker>
                 </v-flex>
                 </v-layout>
-            </v-container>
+              </v-container>
             </v-card-text>
             <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click.native="dialog = false">{{ $t('close') }}</v-btn>
             <v-btn color="blue darken-1" flat type="submit">{{ $t('save') }}</v-btn>
-            </v-card-actions>
+          </v-card-actions>
         </form>
       </v-card>
     </v-dialog>
@@ -51,24 +79,29 @@ export default {
         level: null,
         date: null
       },
-      levels:this.$enum.getTextValue('levels')
+      levels: this.$enum.getTextValue("levels")
     };
   },
-  mounted: function() {
-    this.goal.level = this.$store.state.level;
-  },
   methods: {
-    save(event) {
+    submit(event) {
       event.preventDefault();
-      this.$store.commit("addGoal", Object.assign({}, this.goal));
-      this.clearGoal();
-      this.dialog = false;
+      this.$validator.validateAll().then(this.save);
     },
-    clearGoal(){
+    save(validation) {
+      if (validation) {
+        this.$store.commit("addGoal", Object.assign({}, this.goal));
+        this.clearGoal();
+        this.dialog = false;
+      }
+    },
+    clearGoal() {
       this.goal.title = null;
       this.goal.subtitle = null;
       this.goal.level = null;
       this.goal.date = null;
+      this.$nextTick().then(() => {
+        this.errors.clear();
+      });
     }
   }
 };
@@ -79,9 +112,9 @@ export default {
   bottom: 50px;
 }
 
-.date-label{
-    font-size: 16px;
-    color: #757575;
-    font-weight: 300;
+.date-label {
+  font-size: 16px;
+  color: #757575;
+  font-weight: 300;
 }
 </style>

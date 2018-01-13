@@ -75,7 +75,7 @@ export default {
   data() {
     return {
       snackbar: false,
-      levels: this.$enum.getTextValue('levels')
+      levels: this.$enum.getTextValue("levels")
     };
   },
   mounted: function() {
@@ -86,27 +86,36 @@ export default {
       return this.$store.state.goals;
     },
     dailyGoals() {
-      return this.$store.state.goals.filter(this.checkLevel(this.$enum.levels.daily))
+      return this.$store.state.goals.filter(
+        this.checkLevel(this.$enum.levels.daily)
+      );
     },
     shortGoals() {
-      return this.$store.state.goals.filter(this.checkLevel(this.$enum.levels.short))
+      return this.$store.state.goals.filter(
+        this.checkLevel(this.$enum.levels.short)
+      );
     },
     mediumGoals() {
-      return this.$store.state.goals.filter(this.checkLevel(this.$enum.levels.medium))
+      return this.$store.state.goals.filter(
+        this.checkLevel(this.$enum.levels.medium)
+      );
     },
     longGoals() {
-      return this.$store.state.goals.filter(this.checkLevel(this.$enum.levels.long))
+      return this.$store.state.goals.filter(
+        this.checkLevel(this.$enum.levels.long)
+      );
     }
   },
-  methods:{
-    checkLevel(level){
-        return item => {
-          return item.level == level
-        } 
+  methods: {
+    checkLevel(level) {
+      return item => {
+        return item.level == level;
+      };
     }
   }
 };
 </script>
 
 <style scoped>
+
 </style>

@@ -7,12 +7,14 @@ import VuexI18n from 'vuex-i18n'
 import ptBR from './translations/pt-br'
 import enUS from './translations/en-us'
 import Enum from './plugins/enum'
+import VeeValidate from 'vee-validate';
 
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
 Vue.config.productionTip = false
 
 Vue.use(Vuetify)
+Vue.use(VeeValidate)
 
 Vue.use(VuexI18n.plugin, store)
 Vue.i18n.add('pt-br', ptBR);
@@ -26,7 +28,7 @@ new Vue({
   store,
   template: '<App/>',
   components: { App },
-  created(){
+  created() {
     Vue.i18n.set(this.$store.state.culture);
   }
 })
