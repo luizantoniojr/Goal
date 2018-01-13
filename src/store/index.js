@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    goals: []
+    goals: [],
+    culture:'pt-br'
   },
   mutations: {
     addGoal: (state, goal) => {

@@ -17,7 +17,6 @@ Vue.use(Vuetify)
 Vue.use(VuexI18n.plugin, store)
 Vue.i18n.add('pt-br', ptBR);
 Vue.i18n.add('en-us', enUS);
-Vue.i18n.set('pt-br');
 
 Vue.use(Enum)
 
@@ -26,5 +25,8 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  created(){
+    Vue.i18n.set(this.$store.state.culture);
+  }
 })
