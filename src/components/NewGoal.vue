@@ -12,15 +12,15 @@
                 <v-container grid-list-md>
                   <v-layout wrap>
                     <v-flex xs12>
-                        <v-text-field
-                          v-bind:label="$t('title')"
-                          v-model="goal.title"
-                          v-validate="'required'"
-                          :error-messages="errors.collect('title')"
-                          v-bind:data-vv-as="$t('title')"
-                          data-vv-name="title"
-                          required>
-                        </v-text-field>
+                      <v-text-field
+                        v-bind:label="$t('title')"
+                        v-model="goal.title"
+                        v-validate="'required'"
+                        :error-messages="errors.collect('title')"
+                        v-bind:data-vv-as="$t('title')"
+                        data-vv-name="title"
+                        required>
+                      </v-text-field>
                     </v-flex>
                     <v-flex xs12>
                       <v-select 
@@ -57,12 +57,26 @@
                           required
                           readonly>
                           </v-text-field>
+                        <v-time-picker 
+                          v-if="typeOfPicker == 'time'"
+                          header-color="cyan lighten-2" 
+                          v-model="goal.date">
+                          <template slot-scope="{ save, cancel }">
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn flat color="primary" @click="cancel">{{$t('cancel')}}</v-btn>
+                              <v-btn flat color="primary" @click="save">{{$t('confirm')}}</v-btn>
+                            </v-card-actions>
+                          </template>
+                        </v-time-picker>
                         <v-date-picker 
+                          v-else
                           v-model="goal.date" 
-                          no-title 
                           scrollable 
                           actions
-                          v-bind:locale="$store.state.culture">
+                          header-color="cyan lighten-2" 
+                          v-bind:locale="$store.state.culture"
+                          v-bind:type="typeOfPicker">
                           <template slot-scope="{ save, cancel }">
                             <v-card-actions>
                               <v-spacer></v-spacer>
@@ -71,7 +85,7 @@
                             </v-card-actions>
                           </template>
                         </v-date-picker>
-                      </v-menu>
+                    </v-menu>
                     </v-flex>
                     <v-flex xs12>
                       <v-text-field 
@@ -110,6 +124,25 @@ export default {
       },
       levels: this.$enum.getTextValue("levels")
     };
+  },
+  watch: {
+    "goal.level"(newLevel) {
+      if (newLevel) this.goal.date = null;
+    }
+  },
+  computed: {
+    typeOfPicker() {
+      switch (this.goal.level) {
+        case 1:
+          return "time";
+        case 2:
+          return "date";
+        case 3:
+          return "month";
+        case 4:
+          return "year";
+      }
+    }
   },
   methods: {
     submit(event) {
