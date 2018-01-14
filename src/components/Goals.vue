@@ -87,29 +87,29 @@ export default {
     },
     dailyGoals() {
       return this.$store.state.goals.filter(
-        this.checkLevel(this.$enum.levels.daily)
+        this.checkLevelAndState(this.$enum.levels.daily)
       );
     },
     shortGoals() {
       return this.$store.state.goals.filter(
-        this.checkLevel(this.$enum.levels.short)
+        this.checkLevelAndState(this.$enum.levels.short)
       );
     },
     mediumGoals() {
       return this.$store.state.goals.filter(
-        this.checkLevel(this.$enum.levels.medium)
+        this.checkLevelAndState(this.$enum.levels.medium)
       );
     },
     longGoals() {
       return this.$store.state.goals.filter(
-        this.checkLevel(this.$enum.levels.long)
+        this.checkLevelAndState(this.$enum.levels.long)
       );
     }
   },
   methods: {
-    checkLevel(level) {
+    checkLevelAndState(level) {
       return item => {
-        return item.level == level;
+        return item.level == level && item.state == "Active";
       };
     }
   }

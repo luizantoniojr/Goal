@@ -16,5 +16,8 @@ export default {
     "manage_your_goals":"Gerencie suas metas",
     "add_your_first_goal":"Adicione sua primeira meta",
     "confirm":"Confirmar",
-    "cancel":"Cancelar"
+    "cancel":"Cancelar",
+    "edit":"Editar",
+    "remove":"Remover",
+    "conclude":"Concluir"
 }

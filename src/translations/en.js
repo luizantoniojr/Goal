@@ -16,5 +16,8 @@ export default {
     "manage_your_goals":"Manage your goals",
     "add_your_first_goal":"Add your first goal",
     "confirm":"Confirm",
-    "cancel":"Cancel"
+    "cancel":"Cancel",
+    "edit":"Edit",
+    "remove":"Remove",
+    "conclude":"Conclude"
 }
