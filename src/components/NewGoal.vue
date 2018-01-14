@@ -1,64 +1,93 @@
 <template>
-    <v-dialog v-model="dialog"  max-width="560px">
+    <v-dialog v-model="dialog" max-width="560px">
       <v-btn absolute dark fab right fixed bottom color="cyan lighten-2" slot="activator">
         <v-icon>add</v-icon>
       </v-btn>
       <v-card>
-        <form v-on:submit="submit">
+        <form>
             <v-card-title>
             <span class="headline">{{ $t('new_goal') }}</span>
             </v-card-title>
-            <v-card-text>
-            <v-container grid-list-md>
-                <v-layout wrap>
-                <v-flex xs12>
-                    <v-text-field
-                      v-bind:label="$t('title')"
-                      data-vv-name="title"
-                      v-validate="'required'"
-                      :error-messages="errors.collect('title')"
-                      v-model="goal.title">
-                    </v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-select 
-                    v-bind:items="levels" 
-                    item-text="text" 
-                    item-value="value" 
-                    v-model="goal.level" 
-                    v-bind:label="$t('level')" 
-                    data-vv-name="level"
-                    v-validate="'required'"
-                    :error-messages="errors.collect('title')"
-                    >
-                  </v-select>
-                </v-flex>
-                <v-flex xs12>
-                    <v-text-field 
-                      v-bind:label="$t('subtitle')" 
-                      type="textbox" 
-                      multi-line 
-                      v-model="goal.subtitle">
-                    </v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <label class="subheading grey--text">{{ $t('conclusion') }}</label>
-                  <v-date-picker 
-                    color="cyan lighten-2" 
-                    header-color="cyan lighten-2" 
-                    v-model="goal.date" 
-                    v-bind:locale="$store.state.culture" 
-                    landscape 
-                    required>
-                  </v-date-picker>
-                </v-flex>
-                </v-layout>
-              </v-container>
-            </v-card-text>
+              <v-card-text>
+                <v-container grid-list-md>
+                  <v-layout wrap>
+                    <v-flex xs12>
+                        <v-text-field
+                          v-bind:label="$t('title')"
+                          v-model="goal.title"
+                          v-validate="'required'"
+                          :error-messages="errors.collect('title')"
+                          v-bind:data-vv-as="$t('title')"
+                          data-vv-name="title"
+                          required>
+                        </v-text-field>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-select 
+                        v-bind:label="$t('level')" 
+                        v-bind:items="levels" 
+                        v-model="goal.level" 
+                        item-text="text" 
+                        item-value="value" 
+                        v-validate="'required'"
+                        :error-messages="errors.collect('level')"
+                        v-bind:data-vv-as="$t('level')"
+                        data-vv-name="level"
+                        required>
+                      </v-select>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-menu
+                        lazy
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        full-width
+                        :nudge-right="40"
+                        max-width="290px"
+                        min-width="290px">
+                        <v-text-field
+                          slot="activator"
+                          v-bind:label="$t('conclusion')"
+                          v-model="goal.date"
+                          v-validate="'required'"
+                          :error-messages="errors.collect('conclusion')"
+                          v-bind:data-vv-as="$t('conclusion')"
+                          data-vv-name="conclusion"
+                          required
+                          readonly>
+                          </v-text-field>
+                        <v-date-picker 
+                          v-model="goal.date" 
+                          no-title 
+                          scrollable 
+                          actions
+                          v-bind:locale="$store.state.culture">
+                          <template slot-scope="{ save, cancel }">
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn flat color="primary" @click="cancel">{{$t('cancel')}}</v-btn>
+                              <v-btn flat color="primary" @click="save">{{$t('confirm')}}</v-btn>
+                            </v-card-actions>
+                          </template>
+                        </v-date-picker>
+                      </v-menu>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-text-field 
+                        v-bind:label="$t('description')" 
+                        type="textbox" 
+                        multi-line 
+                        v-model="goal.subtitle">
+                      </v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </v-card-text>
             <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click.native="dialog = false">{{ $t('close') }}</v-btn>
-            <v-btn color="blue darken-1" flat type="submit">{{ $t('save') }}</v-btn>
+            <v-btn color="blue darken-1" flat type="button" v-on:click="submit">{{ $t('save') }}</v-btn>
           </v-card-actions>
         </form>
       </v-card>
@@ -84,7 +113,6 @@ export default {
   },
   methods: {
     submit(event) {
-      event.preventDefault();
       this.$validator.validateAll().then(this.save);
     },
     save(validation) {

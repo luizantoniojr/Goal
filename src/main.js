@@ -4,10 +4,11 @@ import App from './App'
 import router from './router'
 import store from './store'
 import VuexI18n from 'vuex-i18n'
-import ptBR from './translations/pt-br'
-import enUS from './translations/en-us'
-import Enum from './plugins/enum'
+import translations_ptbr from './translations/pt-br'
+import translations_en from './translations/en'
 import VeeValidate from 'vee-validate';
+import VeeValidate_ptbr from 'vee-validate/dist/locale/pt_BR';
+import Enum from './plugins/enum'
 
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
@@ -17,8 +18,8 @@ Vue.use(Vuetify)
 Vue.use(VeeValidate)
 
 Vue.use(VuexI18n.plugin, store)
-Vue.i18n.add('pt-br', ptBR);
-Vue.i18n.add('en-us', enUS);
+Vue.i18n.add('pt-br', translations_ptbr);
+Vue.i18n.add('en', translations_en);
 
 Vue.use(Enum)
 
@@ -29,6 +30,18 @@ new Vue({
   template: '<App/>',
   components: { App },
   created() {
-    Vue.i18n.set(this.$store.state.culture);
+    var culture = this.$store.state.culture;
+    Vue.i18n.set(culture);
+    this.setVeevalidatorLocale(culture);
+  },
+  methods: {
+    setVeevalidatorLocale(culture) {
+      this.$validator.locale = culture;
+      if (culture == 'pt-br')
+        var validatorConfiguration = {
+          messages: VeeValidate_ptbr.messages
+        };
+      this.$validator.localize(culture, validatorConfiguration);
+    }
   }
 })

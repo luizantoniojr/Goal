@@ -8,11 +8,13 @@ export default {
     "long":"Longas",
     "new_goal":"Nova meta",
     "title":"Título",
-    "subtitle":"Subtítulo",
+    "description":"Descrição",
     "level":"Nível",
     "conclusion":"Conclusão",
     "close":"Fechar",
     "save":"Salvar",
     "manage_your_goals":"Gerencie suas metas",
-    "add_your_first_goal":"Adicione sua primeira meta"
+    "add_your_first_goal":"Adicione sua primeira meta",
+    "confirm":"Confirmar",
+    "cancel":"Cancelar"
 }
