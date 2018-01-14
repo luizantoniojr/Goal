@@ -36,7 +36,7 @@
                         required>
                       </v-select>
                     </v-flex>
-                    <v-flex xs12>
+                    <v-flex v-if="goal.level" xs12 >
                       <v-menu
                         lazy
                         :close-on-content-click="false"
@@ -49,7 +49,7 @@
                         <v-text-field
                           slot="activator"
                           v-bind:label="$t('conclusion')"
-                          v-model="goal.date"
+                          v-model="conclusionDisplayed"
                           v-validate="'required'"
                           :error-messages="errors.collect('conclusion')"
                           v-bind:data-vv-as="$t('conclusion')"
@@ -60,7 +60,7 @@
                         <v-time-picker 
                           v-if="typeOfPicker == 'time'"
                           header-color="cyan lighten-2" 
-                          v-model="goal.date">
+                          v-model="goal.conclusion">
                           <template slot-scope="{ save, cancel }">
                             <v-card-actions>
                               <v-spacer></v-spacer>
@@ -71,7 +71,7 @@
                         </v-time-picker>
                         <v-date-picker 
                           v-else
-                          v-model="goal.date" 
+                          v-model="goal.conclusion" 
                           scrollable 
                           actions
                           header-color="cyan lighten-2" 
@@ -120,14 +120,19 @@ export default {
         subtitle: null,
         state: "Active",
         level: null,
-        date: null
+        conclusion: null
       },
+      conclusionDisplayed: null,
       levels: this.$enum.getTextValue("levels")
     };
   },
   watch: {
     "goal.level"(newLevel) {
-      if (newLevel) this.goal.date = null;
+      if (newLevel) this.goal.conclusion = null;
+    },
+    "goal.conclusion"(newConclusion) {
+      if (newConclusion)
+        this.conclusionDisplayed = this.$moment.formatterConclusion(this.goal);
     }
   },
   computed: {
@@ -137,10 +142,8 @@ export default {
           return "time";
         case 2:
           return "date";
-        case 3:
+        default:
           return "month";
-        case 4:
-          return "year";
       }
     }
   },
@@ -159,7 +162,11 @@ export default {
       this.goal.title = null;
       this.goal.subtitle = null;
       this.goal.level = null;
-      this.goal.date = null;
+      this.goal.conclusion = null;
+      this.conclusionDisplayed = null;
+      this.clearErrors();
+    },
+    clearErrors() {
       this.$nextTick().then(() => {
         this.errors.clear();
       });
