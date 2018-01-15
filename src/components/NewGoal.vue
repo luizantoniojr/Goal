@@ -114,25 +114,27 @@ export default {
   data() {
     return {
       items: [],
-      dialog: false,
-      goal: {
-        title: null,
-        subtitle: null,
-        state: "Active",
-        level: null,
-        conclusion: null
-      },
       conclusionDisplayed: null,
       levels: this.$enum.getTextValue("levels")
     };
   },
   watch: {
-    "goal.level"(newLevel) {
-      if (newLevel) this.goal.conclusion = null;
+    goal(newGoal) {
+      if (newGoal && newGoal.conclusion)
+        this.conclusionDisplayed = this.$moment.formatterConclusion(newGoal);
+    },
+    "goal.level"(newLevel, oldLevel) {
+      if (newLevel && oldLevel)  {
+        this.goal.conclusion = null;
+        this.conclusionDisplayed = null;
+      }
     },
     "goal.conclusion"(newConclusion) {
       if (newConclusion)
         this.conclusionDisplayed = this.$moment.formatterConclusion(this.goal);
+    },
+    dialog(newDialog) {
+      if (!newDialog) this.clearGoal();
     }
   },
   computed: {
@@ -145,6 +147,22 @@ export default {
         default:
           return "month";
       }
+    },
+    goal: {
+      get() {
+        return this.$store.state.goal;
+      },
+      set(goal) {
+        this.$store.commit("setGoal", goal);
+      }
+    },
+    dialog: {
+      get() {
+        return this.$store.state.dialogNewGoal;
+      },
+      set(dialogNewGoal) {
+        this.$store.commit("setDialogNewGoal", dialogNewGoal);
+      }
     }
   },
   methods: {
@@ -153,12 +171,15 @@ export default {
     },
     save(validation) {
       if (validation) {
-        this.$store.commit("addGoal", Object.assign({}, this.goal));
-        this.clearGoal();
+        if (!this.goal.id) {
+          this.goal.id = this.$guid.generate();
+          this.$store.commit("addGoal", this.goal);
+        } else this.$store.commit("editGoal", this.goal);
         this.dialog = false;
       }
     },
     clearGoal() {
+      this.goal.id = null;
       this.goal.title = null;
       this.goal.subtitle = null;
       this.goal.level = null;

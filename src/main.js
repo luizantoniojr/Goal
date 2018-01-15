@@ -6,10 +6,11 @@ import store from './store'
 import VuexI18n from 'vuex-i18n'
 import translations_ptbr from './translations/pt-br'
 import translations_en from './translations/en'
-import VeeValidate from 'vee-validate';
-import VeeValidate_ptbr from 'vee-validate/dist/locale/pt_BR';
+import VeeValidate from 'vee-validate'
+import VeeValidate_ptbr from 'vee-validate/dist/locale/pt_BR'
 import Enum from './plugins/enum'
 import Moment from './plugins/moment'
+import Guid from './plugins/guid'
 
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
@@ -19,11 +20,12 @@ Vue.use(Vuetify)
 Vue.use(VeeValidate)
 
 Vue.use(VuexI18n.plugin, store)
-Vue.i18n.add('pt-br', translations_ptbr);
-Vue.i18n.add('en', translations_en);
+Vue.i18n.add('pt-br', translations_ptbr)
+Vue.i18n.add('en', translations_en)
 
 Vue.use(Enum)
 Vue.use(Moment)
+Vue.use(Guid)
 
 new Vue({
   el: '#app',

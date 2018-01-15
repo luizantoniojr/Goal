@@ -20,7 +20,7 @@
             </v-list-tile-avatar>
             <v-list-tile-title>{{$t('conclude')}}</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile @click="sheet = false">
+          <v-list-tile @click="edit">
             <v-list-tile-avatar>
               <v-avatar size="32px" tile>
                 <v-icon color="cyan lighten-2">edit</v-icon>
@@ -71,6 +71,11 @@ export default {
         return item != goal;
       });
       this.sheet = false;
+    },
+    edit() {
+      this.$store.commit("setGoal", this.goal);
+      this.sheet = false;
+      this.$store.commit("setDialogNewGoal", true);
     }
   }
 };
