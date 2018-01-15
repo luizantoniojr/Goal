@@ -3,10 +3,11 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Goals from '@/components/Goals'
 import Setting from '@/components/Setting'
+import firebase from 'firebase'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
       path: '/Home',
@@ -16,12 +17,29 @@ export default new Router({
     {
       path: '/Goals',
       name: 'Goals',
-      component: Goals
+      component: Goals,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/Setting',
       name: 'Setting',
-      component: Setting
+      component: Setting,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  let currentUser = firebase.auth().currentUser;
+  let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !currentUser) next('Home')
+  else if (!requiresAuth && currentUser) next('Goals')
+  else next()
+})
+
+export default router

@@ -19,5 +19,6 @@ export default {
     "cancel":"Cancelar",
     "edit":"Editar",
     "remove":"Remover",
-    "conclude":"Concluir"
+    "conclude":"Concluir",
+    "login":"Entrar"
 }

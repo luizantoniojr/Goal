@@ -3,7 +3,7 @@
     <v-parallax src="https://vuetifyjs.com/static/doc-images/parallax/material.jpg" :jumbotron="false">
       <v-layout  align-center justify-center>
         <h1 class="white--text">Goal</h1>
-        <h4 class="white--text">Manage your goals</h4>
+        <h4 class="white--text">{{ $t('manage_your_goals') }}</h4>
       </v-layout>
     </v-parallax>
   </v-flex>

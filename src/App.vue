@@ -2,7 +2,7 @@
   <div id="app">
     <v-app>
       <v-navigation-drawer app clipped fixed v-model="drawer" class="grey lighten-2">
-          <v-list dense>
+        <v-list dense>
           <v-list-tile to="/Home">
             <v-list-tile-action>
               <v-icon>home</v-icon>
@@ -30,15 +30,16 @@
       </v-list>
       </v-navigation-drawer>
       <v-toolbar app fixed clipped-left class="cyan darken-2">
-        <v-toolbar-side-icon color="white--text" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <v-toolbar-side-icon v-if="hasUser" color="white--text" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title class="white--text">Goal</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-badge overlap color="cyan darken-2">
-        <span slot="badge">3</span>
-        <v-btn color="cyan lighten-2" fab small dark>
-          <v-icon dark>notifications</v-icon>
-        </v-btn>
-    </v-badge>
+        <v-badge v-if="hasUser" overlap color="cyan darken-2">
+          <span slot="badge">3</span>
+          <v-btn color="cyan lighten-2" fab small dark>
+            <v-icon dark>notifications</v-icon>
+          </v-btn>
+        </v-badge>
+        <v-btn v-else outline color="cyan lighten-3" @click="login">{{$t('login')}}</v-btn>
       </v-toolbar>
      <v-content>
       <v-container fluid fill-height>
@@ -59,7 +60,17 @@ export default {
   name: "app",
   data: () => ({
     drawer: false
-  })
+  }),
+  computed: {
+    hasUser() {
+      return !!this.$store.state.authInfo.user;
+    }
+  },
+  methods: {
+    login() {
+      this.$store.dispatch("openGoogleSignInModal");
+    }
+  }
 };
 </script>
 
