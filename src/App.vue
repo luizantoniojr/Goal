@@ -33,13 +33,25 @@
         <v-toolbar-side-icon v-if="hasUser" color="white--text" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title class="white--text">Goal</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-badge v-if="hasUser" overlap color="cyan darken-2">
-          <span slot="badge">3</span>
-          <v-btn color="cyan lighten-2" fab small dark>
-            <v-icon dark>notifications</v-icon>
-          </v-btn>
-        </v-badge>
-        <v-btn v-else outline color="cyan lighten-3" @click="login">{{$t('login')}}</v-btn>
+        <!-- logged -->
+        <template v-if="hasUser">
+           <!-- <v-badge overlap color="cyan darken-2">
+              <span slot="badge">3</span>
+              <v-btn color="cyan lighten-2" fab small dark>
+                <v-icon dark>notifications</v-icon>
+              </v-btn>
+            </v-badge> -->
+          <v-avatar class="cyan lighten-2">
+            <span class="white--text headline">{{firstLetterUserName}}</span>
+          </v-avatar>
+           <v-btn flat icon dark  @click="logOut">
+                <v-icon dark>exit_to_app</v-icon>
+            </v-btn>
+        </template>
+        <!-- not logged in -->
+        <template v-else>
+          <v-btn outline color="cyan lighten-3" @click="logIn">{{$t('login')}}</v-btn>
+        </template>
       </v-toolbar>
      <v-content>
       <v-container fluid fill-height>
@@ -63,12 +75,23 @@ export default {
   }),
   computed: {
     hasUser() {
-      return !!this.$store.state.authInfo.user;
+      return !!this.$store.state.user;
+    },
+    firstLetterUserName() {
+      return this.$store.state.user.displayName[0];
+    }
+  },
+  watch: {
+    hasUser(hasUser) {
+      if (!hasUser) this.drawer = false;
     }
   },
   methods: {
-    login() {
-      this.$store.dispatch("openGoogleSignInModal");
+    logIn() {
+      this.$store.dispatch("logIn");
+    },
+    logOut() {
+      this.$store.dispatch("logOut");
     }
   }
 };

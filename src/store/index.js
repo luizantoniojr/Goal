@@ -16,10 +16,7 @@ export default new Vuex.Store({
       conclusion: null
     },
     dialogNewGoal: false,
-    authInfo: {
-      token: null,
-      user: null
-    },
+    user: null,
     culture: 'pt-br'
   },
   mutations: {
@@ -38,26 +35,24 @@ export default new Vuex.Store({
     setDialogNewGoal: (state, dialogNewGoal) => {
       state.dialogNewGoal = dialogNewGoal;
     },
-    setAuthInfo: (state, authInfo) => {
-      state.authInfo = authInfo;
+    setUser: (state, user) => {
+      state.user = user;
     }
   },
   actions: {
-    openGoogleSignInModal({ commit }) {
+    logIn({ commit }) {
       var provider = new firebase.auth.GoogleAuthProvider()
       firebase.auth().signInWithPopup(provider).then((result) => {
-        commit('setAuthInfo', {
-          token: result.credential.accessToken,
-          user: result.user
-        })
-        window.location.href = `${window.location.origin}/#/goals`
+        commit('setUser', result.user)
+        window.location.href = `${window.location.origin}/#/Goals`
       }).catch((error) => {
         console.log(error)
       })
     },
-    signOut() {
+    logOut({ commit }) {
       firebase.auth().signOut().then(() => {
-        window.location.href = window.location.origin
+        commit('setUser', null);
+        window.location.href = `${window.location.origin}/#/Home`;
       }).catch((error) => {
         console.log(error)
       })

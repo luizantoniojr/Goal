@@ -51,10 +51,7 @@ firebase.auth().onAuthStateChanged((user) => {
         Vue.i18n.set(culture);
         this.setVeevalidatorLocale(culture);
         this.$moment.locale(culture);
-        this.$store.commit('setAuthInfo', {
-          token: user.refreshToken,
-          user: user
-        })
+        this.$store.commit('setUser', user);
       },
       methods: {
         setVeevalidatorLocale(culture) {
