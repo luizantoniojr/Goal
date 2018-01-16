@@ -1,17 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as firebase from 'firebase'
+import firebase from 'firebase'
 
 Vue.use(Vuex)
-
-const firebaseService = firebase.initializeApp({
-  apiKey: "AIzaSyCtpqaE0_v2_YOmXZ9CaVpCMIYAd0ZHrzk",
-  authDomain: "goal-afb6b.firebaseapp.com",
-  databaseURL: "https://goal-afb6b.firebaseio.com",
-  projectId: "goal-afb6b",
-  storageBucket: "goal-afb6b.appspot.com",
-  messagingSenderId: "1048625467134"
-}).firebase_;
 
 export default new Vuex.Store({
   state: {
@@ -53,8 +44,8 @@ export default new Vuex.Store({
   },
   actions: {
     openGoogleSignInModal({ commit }) {
-      var provider = new firebaseService.auth.GoogleAuthProvider()
-      firebaseService.auth().signInWithPopup(provider).then((result) => {
+      var provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithPopup(provider).then((result) => {
         commit('setAuthInfo', {
           token: result.credential.accessToken,
           user: result.user
@@ -65,7 +56,7 @@ export default new Vuex.Store({
       })
     },
     signOut() {
-      firebaseService.auth().signOut().then(() => {
+      firebase.auth().signOut().then(() => {
         window.location.href = window.location.origin
       }).catch((error) => {
         console.log(error)
