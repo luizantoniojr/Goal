@@ -124,7 +124,7 @@ export default {
         this.conclusionDisplayed = this.$moment.formatterConclusion(newGoal);
     },
     "goal.level"(newLevel, oldLevel) {
-      if (newLevel && oldLevel)  {
+      if (newLevel && oldLevel) {
         this.goal.conclusion = null;
         this.conclusionDisplayed = null;
       }
@@ -175,6 +175,7 @@ export default {
           this.goal.id = this.$guid.generate();
           this.$store.commit("addGoal", this.goal);
         } else this.$store.commit("editGoal", this.goal);
+
         this.dialog = false;
       }
     },

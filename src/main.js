@@ -53,6 +53,14 @@ firebase.auth().onAuthStateChanged((user) => {
         this.$moment.locale(culture);
         this.$store.commit('setUser', user);
       },
+      mounted(){
+        this.$store.dispatch("getGoals");
+      },
+      watch:{
+        "$store.state.goals"() {
+          this.$store.dispatch("saveGoals");
+        }
+      },
       methods: {
         setVeevalidatorLocale(culture) {
           this.$validator.locale = culture;
