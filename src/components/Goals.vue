@@ -54,10 +54,6 @@
         </v-tabs-items>
       </v-tabs>
     </v-flex>
-    <v-snackbar v-model="snackbar" color="cyan lighten-2">
-      {{ $t('add_your_first_goal') }}
-      <v-btn dark flat @click.native="snackbar = false">{{ $t('close') }}</v-btn>
-    </v-snackbar>
     <new-goal></new-goal>    
   </v-layout>
 </template>
@@ -74,12 +70,8 @@ export default {
   },
   data() {
     return {
-      snackbar: false,
       levels: this.$enum.getTextValue("levels")
     };
-  },
-  mounted: function() {
-    if (this.goals.length == 0) this.snackbar = true;
   },
   computed: {
     goals() {

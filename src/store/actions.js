@@ -13,7 +13,7 @@ export default {
     logOut({ commit }) {
         firebase.auth().signOut().then(() => {
             commit('setUser', null);
-            window.location.href = `${window.location.origin}/#/Home`;
+            window.location.href = `${window.location.origin}/#/`;
         }).catch((error) => {
             console.log(error)
         })

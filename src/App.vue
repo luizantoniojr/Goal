@@ -1,16 +1,8 @@
 <template>
   <div id="app">
     <v-app>
-      <v-navigation-drawer app clipped fixed v-model="drawer" class="grey lighten-2">
+      <v-navigation-drawer app clipped fixed v-model="drawer" :disable-route-watcher="true" class="grey lighten-2">
         <v-list dense>
-          <v-list-tile to="/Home">
-            <v-list-tile-action>
-              <v-icon>home</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ $t('home') }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
           <v-list-tile to="/Goals">
             <v-list-tile-action>
               <v-icon>done_all</v-icon>
@@ -19,18 +11,10 @@
               <v-list-tile-title>{{ $t('goals') }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile to="/Setting">
-            <v-list-tile-action>
-              <v-icon>settings</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ $t('settings') }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
       </v-list>
       </v-navigation-drawer>
       <v-toolbar app fixed clipped-left class="cyan darken-2">
-        <v-toolbar-side-icon v-if="hasUser" color="white--text" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <v-toolbar-side-icon v-if="hasUser" color="white--text" @click="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title class="white--text">Goal</v-toolbar-title>
         <v-spacer></v-spacer>
         <!-- logged -->
@@ -83,7 +67,7 @@ export default {
   },
   watch: {
     hasUser(hasUser) {
-      if (!hasUser) this.drawer = false;
+      if (!this.hasUser && this.drawer) this.drawer = false;
     }
   },
   methods: {

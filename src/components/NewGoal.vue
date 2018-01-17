@@ -92,7 +92,8 @@
                         v-bind:label="$t('description')" 
                         type="textbox" 
                         multi-line 
-                        v-model="goal.subtitle">
+                        v-model="goal.subtitle"
+                        max-length="100">
                       </v-text-field>
                     </v-flex>
                   </v-layout>
