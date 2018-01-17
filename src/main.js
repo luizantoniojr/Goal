@@ -37,6 +37,15 @@ firebase.initializeApp({
   messagingSenderId: "1048625467134"
 });
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../static/service-worker.js')
+    .then(function (registration) {
+      console.log('Registration successful, scope is:', registration.scope);
+    })
+    .catch(function (error) {
+      console.log('Service worker registration failed, error:', error);
+    });
+}
 
 firebase.auth().onAuthStateChanged((user) => {
   if (!app)
@@ -53,10 +62,10 @@ firebase.auth().onAuthStateChanged((user) => {
         this.$moment.locale(culture);
         this.$store.commit('setUser', user);
       },
-      mounted(){
+      mounted() {
         this.$store.dispatch("getGoals");
       },
-      watch:{
+      watch: {
         "$store.state.goals"() {
           this.$store.dispatch("saveGoals");
         }
