@@ -26,7 +26,6 @@ Vue.use(Moment)
 Vue.use(Guid)
 
 
-let vm;
 
 firebase.initializeApp({
   apiKey: "AIzaSyCtpqaE0_v2_YOmXZ9CaVpCMIYAd0ZHrzk",
@@ -38,52 +37,51 @@ firebase.initializeApp({
 });
 
 firebase.auth().onAuthStateChanged((user) => {
-  if (!vm)
-    vm = new Vue({
-      el: '#app',
-      router,
-      store,
-      template: '<App/>',
-      components: { App },
-      data: {
-        serviceWorkerRegistration: null,
-        isSubscribed: null
+  new Vue({
+    el: '#app',
+    router,
+    store,
+    template: '<App/>',
+    components: { App },
+    data: {
+      serviceWorkerRegistration: null,
+      isSubscribed: null
+    },
+    created() {
+      var culture = this.$store.state.culture;
+      Vue.i18n.set(culture);
+      this.setVeevalidatorLocale(culture);
+      this.$moment.locale(culture);
+      this.$store.commit('setUser', user);
+    },
+    mounted() {
+      this.$store.dispatch("getGoals");
+      this.registerServiceWorker();
+    },
+    watch: {
+      "$store.state.goals"() {
+        this.$store.dispatch("saveGoals");
       },
-      created() {
-        var culture = this.$store.state.culture;
-        Vue.i18n.set(culture);
-        this.setVeevalidatorLocale(culture);
-        this.$moment.locale(culture);
-        this.$store.commit('setUser', user);
+    },
+    methods: {
+      setVeevalidatorLocale(culture) {
+        this.$validator.locale = culture;
+        if (culture == 'pt-br')
+          var validatorConfiguration = {
+            messages: VeeValidate_ptbr.messages
+          };
+        this.$validator.localize(culture, validatorConfiguration);
       },
-      mounted() {
-        this.$store.dispatch("getGoals");
-        this.registerServiceWorker();
+      registerServiceWorker() {
+        if ('serviceWorker' in navigator)
+          navigator.serviceWorker.register('../service-worker.js')
+            .then(this.afterRegisterServiceWorker)
       },
-      watch: {
-        "$store.state.goals"() {
-          this.$store.dispatch("saveGoals");
-        },
-      },
-      methods: {
-        setVeevalidatorLocale(culture) {
-          this.$validator.locale = culture;
-          if (culture == 'pt-br')
-            var validatorConfiguration = {
-              messages: VeeValidate_ptbr.messages
-            };
-          this.$validator.localize(culture, validatorConfiguration);
-        },
-        registerServiceWorker() {
-          if ('serviceWorker' in navigator)
-            navigator.serviceWorker.register('../service-worker.js')
-              .then(this.afterRegisterServiceWorker)
-        },
-        afterRegisterServiceWorker(registration) {
-          console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          this.serviceWorkerRegistration = registration;
-        }
+      afterRegisterServiceWorker(registration) {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        this.serviceWorkerRegistration = registration;
       }
-    })
+    }
+  })
 })
 
