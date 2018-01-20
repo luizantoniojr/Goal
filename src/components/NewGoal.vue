@@ -36,57 +36,80 @@
                         required>
                       </v-select>
                     </v-flex>
-                    <v-flex v-if="goal.level" xs12 >
-                      <v-menu
-                        lazy
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        full-width
-                        :nudge-right="40"
-                        max-width="290px"
-                        min-width="290px">
-                        <v-text-field
-                          slot="activator"
-                          v-bind:label="$t('conclusion')"
-                          v-model="conclusionDisplayed"
-                          v-validate="'required'"
-                          :error-messages="errors.collect('conclusion')"
-                          v-bind:data-vv-as="$t('conclusion')"
-                          data-vv-name="conclusion"
-                          required
-                          readonly>
+                    <template v-if="goal.level">
+                      <v-flex  xs12 >
+                        <v-menu
+                          lazy
+                          :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          full-width
+                          :nudge-right="40"
+                          max-width="290px"
+                          min-width="290px">
+                          <v-text-field
+                            slot="activator"
+                            v-bind:label="$t('conclusion')"
+                            v-model="conclusionDisplayed"
+                            v-validate="'required'"
+                            :error-messages="errors.collect('conclusion')"
+                            v-bind:data-vv-as="$t('conclusion')"
+                            data-vv-name="conclusion"
+                            required
+                            readonly>
                           </v-text-field>
-                        <v-time-picker 
-                          v-if="typeOfPicker == 'time'"
-                          header-color="cyan lighten-2" 
-                          v-model="goal.conclusion">
-                          <template slot-scope="{ save, cancel }">
-                            <v-card-actions>
-                              <v-spacer></v-spacer>
-                              <v-btn flat color="primary" @click="cancel">{{$t('cancel')}}</v-btn>
-                              <v-btn flat color="primary" @click="save">{{$t('confirm')}}</v-btn>
-                            </v-card-actions>
-                          </template>
-                        </v-time-picker>
-                        <v-date-picker 
-                          v-else
-                          v-model="goal.conclusion" 
-                          scrollable 
-                          actions
-                          header-color="cyan lighten-2" 
-                          v-bind:locale="$store.state.culture"
-                          v-bind:type="typeOfPicker">
-                          <template slot-scope="{ save, cancel }">
-                            <v-card-actions>
-                              <v-spacer></v-spacer>
-                              <v-btn flat color="primary" @click="cancel">{{$t('cancel')}}</v-btn>
-                              <v-btn flat color="primary" @click="save">{{$t('confirm')}}</v-btn>
-                            </v-card-actions>
-                          </template>
-                        </v-date-picker>
-                    </v-menu>
-                    </v-flex>
+                          <v-date-picker 
+                            v-model="goal.conclusion" 
+                            scrollable 
+                            actions
+                            header-color="cyan lighten-2" 
+                            v-bind:locale="$store.state.culture"
+                            v-bind:type="typeOfPicker">
+                            <template slot-scope="{ save, cancel }">
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn flat color="primary" @click="cancel">{{$t('cancel')}}</v-btn>
+                                <v-btn flat color="primary" @click="save">{{$t('confirm')}}</v-btn>
+                              </v-card-actions>
+                            </template>
+                          </v-date-picker>
+                      </v-menu>
+                      </v-flex>
+                      <v-flex  xs12 v-if="goal.level == $enum.levels['short']">
+                        <v-menu
+                          lazy
+                          :close-on-content-click="false"
+                          transition="scale-transition"
+                          offset-y
+                          full-width
+                          :nudge-right="40"
+                          max-width="290px"
+                          min-width="290px">
+                          <v-text-field
+                            slot="activator"
+                            v-bind:label="$t('conclusion')"
+                            v-model="conclusionDisplayed"
+                            v-validate="'required'"
+                            :error-messages="errors.collect('conclusion')"
+                            v-bind:data-vv-as="$t('conclusion')"
+                            data-vv-name="conclusion"
+                            required
+                            readonly>
+                            </v-text-field>
+                          <v-time-picker 
+                            header-color="cyan lighten-2" 
+                            v-model="goal.conclusion">
+                            <template slot-scope="{ save, cancel }">
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn flat color="primary" @click="cancel">{{$t('cancel')}}</v-btn>
+                                <v-btn flat color="primary" @click="save">{{$t('confirm')}}</v-btn>
+                              </v-card-actions>
+                            </template>
+                          </v-time-picker>
+                      </v-menu>
+                      </v-flex>
+                    </template>
                     <v-flex xs12>
                       <v-text-field 
                         v-bind:label="$t('description')" 
@@ -142,8 +165,6 @@ export default {
     typeOfPicker() {
       switch (this.goal.level) {
         case 1:
-          return "time";
-        case 2:
           return "date";
         default:
           return "month";

@@ -12,16 +12,6 @@
         </v-toolbar>
         <v-tabs-items>
           <v-tabs-content id="tab-1">
-            <v-card v-show="dailyGoals.length > 0">
-              <v-list two-line>
-                <template v-for="(goal, index) in dailyGoals">
-                  <goal v-bind:goal="goal" v-bind:index="index"></goal>
-                  <v-divider v-if="index + 1 < dailyGoals.length"></v-divider>
-                </template>
-              </v-list>
-            </v-card>
-          </v-tabs-content>
-          <v-tabs-content id="tab-2">
             <v-card v-show="shortGoals.length > 0">
               <v-list two-line>
                 <template v-for="(goal, index) in shortGoals">
@@ -31,7 +21,7 @@
               </v-list>
             </v-card>
           </v-tabs-content>
-          <v-tabs-content id="tab-3">
+          <v-tabs-content id="tab-2">
             <v-card v-show="mediumGoals.length > 0">
               <v-list two-line>
                 <template v-for="(goal, index) in mediumGoals">
@@ -41,7 +31,7 @@
               </v-list>
             </v-card>
           </v-tabs-content>
-          <v-tabs-content id="tab-4">
+          <v-tabs-content id="tab-3">
            <v-card v-show="longGoals.length > 0">
             <v-list two-line>
               <template v-for="(goal, index) in longGoals">
@@ -76,11 +66,6 @@ export default {
   computed: {
     goals() {
       return this.$store.state.goals;
-    },
-    dailyGoals() {
-      return this.$store.state.goals.filter(
-        this.checkLevelAndState(this.$enum.levels.daily)
-      );
     },
     shortGoals() {
       return this.$store.state.goals.filter(

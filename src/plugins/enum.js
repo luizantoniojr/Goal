@@ -1,10 +1,9 @@
 export default function install (Vue) {
         return Vue.prototype.$enum = {
             levels: {
-                'daily':1,
-                'short':2,
-                'medium':3,
-                'long':4
+                'short':1,
+                'medium':2,
+                'long':3
             },
             getTextValue: function (enumName) {
                 var textValueArray = [];
