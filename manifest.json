@@ -4,37 +4,37 @@
     "display": "standalone",
     "icons": [
         {
-            "src": "icons/favicon16.png",
+            "src": "static/icons/favicon16.png",
             "type": "image/png",
             "sizes": "16x16"
         },
         {
-            "src": "icons/favicon24.png",
+            "src": "static/icons/favicon24.png",
             "type": "image/png",
             "sizes": "24x24"
         },
         {
-            "src": "icons/favicon32.png",
+            "src": "static/icons/favicon32.png",
             "type": "image/png",
             "sizes": "32x32"
         },
         {
-            "src": "icons/favicon64.png",
+            "src": "static/icons/favicon64.png",
             "type": "image/png",
             "sizes": "64x64"
         },
         {
-            "src": "icons/favicon128.png",
+            "src": "static/icons/favicon128.png",
             "type": "image/png",
             "sizes": "128x128"
         },
         {
-            "src": "icons/favicon256.png",
+            "src": "static/icons/favicon256.png",
             "type": "image/png",
             "sizes": "256x256"
         },
         {
-            "src": "icons/favicon512.png",
+            "src": "static/icons/favicon512.png",
             "type": "image/png",
             "sizes": "512x512"
         }

@@ -26,7 +26,7 @@ Vue.use(Moment)
 Vue.use(Guid)
 
 
-let app;
+let vm;
 
 firebase.initializeApp({
   apiKey: "AIzaSyCtpqaE0_v2_YOmXZ9CaVpCMIYAd0ZHrzk",
@@ -37,24 +37,18 @@ firebase.initializeApp({
   messagingSenderId: "1048625467134"
 });
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('../static/service-worker.js')
-    .then(function (registration) {
-      console.log('Registration successful, scope is:', registration.scope);
-    })
-    .catch(function (error) {
-      console.log('Service worker registration failed, error:', error);
-    });
-}
-
 firebase.auth().onAuthStateChanged((user) => {
-  if (!app)
-    app = new Vue({
+  if (!vm)
+    vm = new Vue({
       el: '#app',
       router,
       store,
       template: '<App/>',
       components: { App },
+      data: {
+        serviceWorkRegistration: null,
+        isSubscribed: null
+      },
       created() {
         var culture = this.$store.state.culture;
         Vue.i18n.set(culture);
@@ -64,6 +58,7 @@ firebase.auth().onAuthStateChanged((user) => {
       },
       mounted() {
         this.$store.dispatch("getGoals");
+        this.registerServiceWorker();
       },
       watch: {
         "$store.state.goals"() {
@@ -78,6 +73,35 @@ firebase.auth().onAuthStateChanged((user) => {
               messages: VeeValidate_ptbr.messages
             };
           this.$validator.localize(culture, validatorConfiguration);
+        },
+        registerServiceWorker() {
+          if ('serviceWorker' in navigator)
+            navigator.serviceWorker.register('../service-worker.js')
+              .then(this.afterRegisterServiceWorker)
+        },
+        afterRegisterServiceWorker(registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          // this.serviceWorkRegistration = registration;
+          // this.subscribePushNotification();
+        },
+        subscribePushNotification() {
+          this.serviceWorkRegistration.pushManager.getSubscription()
+            .then(this.afterSubscribePushNotification);
+        },
+        afterSubscribePushNotification(subscription) {
+          this.isSubscribed = !(subscription === null);
+          this.subscribeUser();
+        },
+        subscribeUser() {
+          this.serviceWorkRegistration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: "BPuWFbbMbmJVzpJHkdPChmY8QmHRi0EA3OYlKLV4dJ3HZHMtJ1ACkP4mYM24Yq2NFirg9YthN694UyKiCjnoREs"
+          })
+          .then(function(subscription) {
+            console.log('User is subscribed:', subscription);
+            isSubscribed = true;
+            updateBtn();
+          });
         }
       }
     })

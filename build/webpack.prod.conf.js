@@ -119,6 +119,20 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
+    ]),
+    // copy manisfest.json
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../manifest.json'),
+        to: config.build.assetsRoot
+      }
+    ]),
+    // copu service-worker.js
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../service-worker.js'),
+        to: config.build.assetsRoot
+      }
     ])
   ]
 })
