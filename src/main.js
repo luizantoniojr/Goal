@@ -46,7 +46,7 @@ firebase.auth().onAuthStateChanged((user) => {
       template: '<App/>',
       components: { App },
       data: {
-        serviceWorkRegistration: null,
+        serviceWorkerRegistration: null,
         isSubscribed: null
       },
       created() {
@@ -63,7 +63,7 @@ firebase.auth().onAuthStateChanged((user) => {
       watch: {
         "$store.state.goals"() {
           this.$store.dispatch("saveGoals");
-        }
+        },
       },
       methods: {
         setVeevalidatorLocale(culture) {
@@ -81,27 +81,7 @@ firebase.auth().onAuthStateChanged((user) => {
         },
         afterRegisterServiceWorker(registration) {
           console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          // this.serviceWorkRegistration = registration;
-          // this.subscribePushNotification();
-        },
-        subscribePushNotification() {
-          this.serviceWorkRegistration.pushManager.getSubscription()
-            .then(this.afterSubscribePushNotification);
-        },
-        afterSubscribePushNotification(subscription) {
-          this.isSubscribed = !(subscription === null);
-          this.subscribeUser();
-        },
-        subscribeUser() {
-          this.serviceWorkRegistration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: "BPuWFbbMbmJVzpJHkdPChmY8QmHRi0EA3OYlKLV4dJ3HZHMtJ1ACkP4mYM24Yq2NFirg9YthN694UyKiCjnoREs"
-          })
-          .then(function(subscription) {
-            console.log('User is subscribed:', subscription);
-            isSubscribed = true;
-            updateBtn();
-          });
+          this.serviceWorkerRegistration = registration;
         }
       }
     })

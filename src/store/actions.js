@@ -19,7 +19,8 @@ export default {
         })
     },
     saveGoals({ state }) {
-        firebase.database().ref('goals/' + state.user.uid).set(state.goals);
+        if (state.user.uid)
+            firebase.database().ref('goals/' + state.user.uid).set(state.goals);
     },
     getGoals({ commit, state }) {
         if (state.user)

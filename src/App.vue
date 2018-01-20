@@ -19,14 +19,8 @@
         <v-spacer></v-spacer>
         <!-- logged -->
         <template v-if="hasUser">
-           <!-- <v-badge overlap color="cyan darken-2">
-              <span slot="badge">3</span>
-              <v-btn color="cyan lighten-2" fab small dark>
-                <v-icon dark>notifications</v-icon>
-              </v-btn>
-            </v-badge> -->
           <v-avatar class="cyan lighten-2">
-            <span class="white--text headline">{{firstLetterUserName}}</span>
+            <img v-bind:src="photoURL">
           </v-avatar>
            <v-btn flat icon dark  @click="logOut">
                 <v-icon dark>exit_to_app</v-icon>
@@ -61,8 +55,8 @@ export default {
     hasUser() {
       return !!this.$store.state.user;
     },
-    firstLetterUserName() {
-      return this.$store.state.user.displayName[0];
+    photoURL() {
+      return this.$store.state.user.photoURL;
     }
   },
   watch: {
