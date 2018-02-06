@@ -6,7 +6,10 @@
         <v-list-tile-sub-title>{{ goal.subtitle }}</v-list-tile-sub-title>
       </v-list-tile-content>
       <v-list-tile-action>
-        <v-list-tile-action-text>{{ $moment.formatterConclusion(goal) }}</v-list-tile-action-text>
+        <v-list-tile-action-text>
+          {{ $moment.formatterConclusion(goal) }} 
+          <v-icon v-if="goal.reminder" v-bind:title="goal.reminder">alarm</v-icon>
+        </v-list-tile-action-text>
         <v-bottom-sheet v-model="sheet">
           <v-btn slot="activator" flat icon color="cyan lighten-2">
             <v-icon>build</v-icon>
