@@ -12,11 +12,6 @@
 <script>
 export default {
   name: "Home",
-  data() {
-    return {
-      msg: "Gerencie suas metas"
-    };
-  }
 };
 </script>
 
