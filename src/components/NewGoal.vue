@@ -89,11 +89,6 @@
                             slot="activator"
                             v-bind:label="$t('reminder')"
                             v-model="goal.reminder"
-                            v-validate="'required'"
-                            :error-messages="errors.collect('reminder')"
-                            v-bind:data-vv-as="$t('reminder')"
-                            data-vv-name="reminder"
-                            required
                             readonly>
                             </v-text-field>
                           <v-time-picker 
