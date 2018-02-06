@@ -4,8 +4,6 @@ export default function install(Vue) {
   moment['formatterConclusion'] = function (goal) {
     switch (goal.level) {
       case 1:
-        return goal.conclusion;
-      case 2:
         return moment(
           goal.conclusion,
           "YYYY-MM-DD"

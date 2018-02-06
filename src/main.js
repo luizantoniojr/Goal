@@ -56,7 +56,7 @@ firebase.auth().onAuthStateChanged((user) => {
     },
     mounted() {
       this.$store.dispatch("getGoals");
-      this.registerServiceWorker();
+      // this.registerServiceWorker();
     },
     watch: {
       "$store.state.goals"() {

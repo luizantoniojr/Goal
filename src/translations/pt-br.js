@@ -20,5 +20,6 @@ export default {
     "edit":"Editar",
     "remove":"Remover",
     "conclude":"Concluir",
-    "login":"Entrar"
+    "login":"Entrar",
+    "reminder":"Lembrete"
 }

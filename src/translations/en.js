@@ -20,5 +20,6 @@ export default {
     "edit":"Edit",
     "remove":"Remove",
     "conclude":"Conclude",
-    "login":"Log in"
+    "login":"Log in",
+    "reminder":"Reminder"
 }

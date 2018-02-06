@@ -87,18 +87,18 @@
                           min-width="290px">
                           <v-text-field
                             slot="activator"
-                            v-bind:label="$t('conclusion')"
-                            v-model="conclusionDisplayed"
+                            v-bind:label="$t('reminder')"
+                            v-model="goal.reminder"
                             v-validate="'required'"
-                            :error-messages="errors.collect('conclusion')"
-                            v-bind:data-vv-as="$t('conclusion')"
-                            data-vv-name="conclusion"
+                            :error-messages="errors.collect('reminder')"
+                            v-bind:data-vv-as="$t('reminder')"
+                            data-vv-name="reminder"
                             required
                             readonly>
                             </v-text-field>
                           <v-time-picker 
                             header-color="cyan lighten-2" 
-                            v-model="goal.conclusion">
+                            v-model="goal.reminder">
                             <template slot-scope="{ save, cancel }">
                               <v-card-actions>
                                 <v-spacer></v-spacer>
@@ -207,6 +207,7 @@ export default {
       this.goal.subtitle = null;
       this.goal.level = null;
       this.goal.conclusion = null;
+      this.goal.reminder = null;
       this.conclusionDisplayed = null;
       this.clearErrors();
     },

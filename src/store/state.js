@@ -6,7 +6,8 @@ export default {
       subtitle: null,
       state: "Active",
       level: null,
-      conclusion: null
+      conclusion: null,
+      reminder: null
     },
     dialogNewGoal: false,
     user: null,
