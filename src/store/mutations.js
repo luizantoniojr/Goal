@@ -19,5 +19,17 @@ export default {
     },
     setUser: (state, user) => {
         state.user = user;
-    }
+    },
+    addExpense: (state, expense) => {
+        state.expenses.push(Object.assign({}, expense))
+    },
+    editExpense: (state, expense) => {
+        state.expenses = state.expenses.filter(item => {
+            return item.id != expense.id
+        });
+        state.expenses.push(Object.assign({}, expense))
+    },
+    setDialogNewExpense: (state, dialogNewExpense) => {
+        state.dialogNewExpense = dialogNewExpense;
+    },
 }

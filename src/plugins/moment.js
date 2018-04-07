@@ -1,6 +1,7 @@
 import moment from "moment";
 
 export default function install(Vue) {
+  
   moment['formatterConclusion'] = function (goal) {
     switch (goal.level) {
       case 1:
@@ -14,7 +15,12 @@ export default function install(Vue) {
           "YYYY-MM"
         ).format("MMMM YYYY");
     }
-  }
+  };
+
+  moment['formatterMonthYear'] = function (date) {
+    return moment(date, "YYYY-MM").format("MMMM YYYY");
+  };
+
   return Vue.prototype.$moment = moment
 }
 

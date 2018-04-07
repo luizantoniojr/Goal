@@ -27,5 +27,15 @@ export default {
             firebase.database().ref('goals/' + state.user.uid).on('value', function (snapshot) {
                 commit('setGoals', snapshot.val());
             });;
+    },
+    saveExpanse({ state }) {
+        if (state.user.uid)
+            firebase.database().ref('expanses/' + state.user.uid).set(state.goals);
+    },
+    getExpanses({ commit, state }) {
+        if (state.user)
+            firebase.database().ref('expanses/' + state.user.uid).on('value', function (snapshot) {
+                commit('setGoals', snapshot.val());
+            });;
     }
 }

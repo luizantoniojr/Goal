@@ -21,5 +21,23 @@ export default {
     "remove":"Remover",
     "conclude":"Concluir",
     "login":"Entrar",
-    "reminder":"Lembrete"
+    "reminder":"Lembrete",
+    "finances":"Finanças",
+    "expenses":"Despesas",
+    "resume":"Resumo",
+    "suggested_expenses":"Gastos sugeridos",
+    "new_expense": "Nova despesa",
+    "search":"Pesquisa",
+    "total":"Total",
+    "salary": "Salário",
+    "balance":"Saldo",
+    "week": "Semana",
+    "day_due":"Dia de vencimento",
+    "last_parcel_date":"Data última parcela",
+    "description":"Descricao",
+    "type":"Tipo",
+    "filter_for_a_type_of_expense": "Filtre por tipo de despesa",
+    "types_expenses":"Tipo de despesa",
+    "value_is_not_a_day_of_the_week":"Valor informado não é um dia da semana"
+
 }

@@ -5,6 +5,14 @@ export default function install (Vue) {
                 'medium':2,
                 'long':3
             },
+            typesExpenses: {
+                'domestic':1,
+                'credit_card':2,
+                'car':3,
+                'bill':4,
+                'recreation':5,
+                'entertainment':6,
+            },
             getTextValue: function (enumName) {
                 var textValueArray = [];
                 for(let enumItem in this[enumName]){

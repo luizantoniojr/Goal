@@ -15,8 +15,10 @@
             <v-card v-show="shortGoals.length > 0">
               <v-list two-line>
                 <template v-for="(goal, index) in shortGoals">
-                  <goal v-bind:goal="goal" v-bind:index="index"></goal>
-                  <v-divider v-if="index + 1 < shortGoals.length"></v-divider>
+                  <div :key="index">
+                    <goal v-bind:goal="goal" v-bind:index="index"></goal>
+                    <v-divider v-if="index + 1 < shortGoals.length"></v-divider>
+                  </div>
                 </template>
               </v-list>
             </v-card>
@@ -25,8 +27,10 @@
             <v-card v-show="mediumGoals.length > 0">
               <v-list two-line>
                 <template v-for="(goal, index) in mediumGoals">
-                  <goal v-bind:goal="goal" v-bind:index="index"></goal>
-                  <v-divider v-if="index + 1 < mediumGoals.length"></v-divider>
+                  <div :key="index">
+                    <goal v-bind:goal="goal" v-bind:index="index"></goal>
+                    <v-divider v-if="index + 1 < mediumGoals.length"></v-divider>
+                  </div>
                 </template>
               </v-list>
             </v-card>
@@ -35,8 +39,10 @@
            <v-card v-show="longGoals.length > 0">
             <v-list two-line>
               <template v-for="(goal, index) in longGoals">
-                <goal v-bind:goal="goal" v-bind:index="index"></goal>
-                <v-divider v-if="index + 1 < longGoals.length"></v-divider>
+                <div :key="index">
+                  <goal v-bind:goal="goal" v-bind:index="index"></goal>
+                  <v-divider v-if="index + 1 < longGoals.length"></v-divider>
+                </div>
               </template>
             </v-list>
           </v-card>
@@ -49,8 +55,8 @@
 </template>
 
 <script>
-import NewGoal from "@/components/NewGoal";
-import Goal from "@/components/Goal";
+import NewGoal from "@/components/Goals/NewGoal";
+import Goal from "@/components/Goals/Goal";
 
 export default {
   name: "Goals",

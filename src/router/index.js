@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Goals from '@/components/Goals'
+import Goals from '@/components/Goals/Goals'
+import Finances from '@/components/Finances/Finances'
 import Setting from '@/components/Setting'
 import firebase from 'firebase'
 
@@ -18,6 +19,14 @@ let router = new Router({
       path: '/Goals',
       name: 'Goals',
       component: Goals,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/Finances',
+      name: 'Finances',
+      component: Finances,
       meta: {
         requiresAuth: true
       }

@@ -11,6 +11,14 @@
               <v-list-tile-title>{{ $t('goals') }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
+          <v-list-tile to="/Finances">
+            <v-list-tile-action>
+              <v-icon>local_atm</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ $t('finances') }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
       </v-list>
       </v-navigation-drawer>
       <v-toolbar app fixed clipped-left class="cyan darken-2">

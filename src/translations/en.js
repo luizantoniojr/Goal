@@ -21,5 +21,9 @@ export default {
     "remove":"Remove",
     "conclude":"Conclude",
     "login":"Log in",
-    "reminder":"Reminder"
+    "reminder":"Reminder",
+    "finances":"Finances",
+    "expenses":"Expenses",
+    "resume":"Resume",
+    "suggested_expenses":"Suggested expenses"
 }

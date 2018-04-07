@@ -2,12 +2,16 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import App from './App'
 import router from './router'
+
 import store from './store'
+
 import VuexI18n from 'vuex-i18n'
 import translations_ptbr from './translations/pt-br'
 import translations_en from './translations/en'
+
 import VeeValidate from 'vee-validate'
 import VeeValidate_ptbr from 'vee-validate/dist/locale/pt_BR'
+
 import Enum from './plugins/enum'
 import Moment from './plugins/moment'
 import Guid from './plugins/guid'
@@ -24,8 +28,6 @@ Vue.i18n.add('en', translations_en)
 Vue.use(Enum)
 Vue.use(Moment)
 Vue.use(Guid)
-
-
 
 firebase.initializeApp({
   apiKey: "AIzaSyCtpqaE0_v2_YOmXZ9CaVpCMIYAd0ZHrzk",
