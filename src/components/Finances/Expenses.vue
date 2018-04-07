@@ -1,45 +1,54 @@
 <template>
-    <v-flex xs12>
+    <v-card>
       <v-flex xs4 ml-3 v-show="hasExpenses">
         <v-select
           :items="types"
           v-model="filter.type"
           :label="$t('filter_for_a_type_of_expense')"
           single-line
+          clearable
         ></v-select>
       </v-flex>
-       <v-card v-show="hasExpenses">
-          <v-list two-line>
-            <template v-for="(expense, index) in filteredExpenses">
-              <div :key="index">
-                <v-expense v-bind:expense="expense" v-bind:index="index"></v-expense>
-                <v-divider v-if="index + 1 < filteredExpenses.length"></v-divider>
-              </div>
-            </template>
-          </v-list>
-        </v-card>
+      <v-flex>
+        <template v-for="(expense, index) in filteredExpenses">
+          <v-expense v-bind:expense="expense" v-bind:index="index" :key="index"></v-expense>
+          <v-divider v-if="index + 1 < filteredExpenses.length" :key="'divider' + index"></v-divider>
+        </template>
+      </v-flex>
       <v-new-expense></v-new-expense>
-    </v-flex>
+    </v-card>
 </template>
 
 <script>
 import newExpense from "./NewExpense";
+import expense from "./Expense";
 export default {
   name: "Expenses",
   components: {
-    "v-new-expense": newExpense
+    "v-new-expense": newExpense,
+    "v-expense": expense
   },
   data() {
     return {
       filter: {
         type: null
-      },
-      types: []
+      }
     };
   },
   computed: {
+    types() {
+      return this.$store.getters.typesExpenses;
+    },
     filteredExpenses() {
-      return [];
+      return this.$store.state.expenses
+        .filter(m => {
+          return m.types.some(t => {
+            return !!this.filter.type ? t == this.filter.type : true;
+          });
+        })
+        .sort((a, b) => {
+          return a.dayDue - b.dayDue;
+        });
     },
     hasExpenses() {
       return this.filteredExpenses.length > 0;

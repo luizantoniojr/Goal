@@ -25,17 +25,22 @@
                     <v-flex xs12>
                       <v-select
                         :items="types"
-                        v-model="expense.type"
+                        v-model="expense.types"
                         v-bind:label="$t('type')"
-                        v-validate="'required'"
-                        required
-                        :error-messages="errors.collect('type')"
-                        v-bind:data-vv-as="$t('type')"
-                        data-vv-name="type"
-                        autocomplete
+                        clearable
                         chips
-                        multiple
-                      ></v-select>
+                        tags
+                      >
+                        <template slot="selection" slot-scope="data">
+                          <v-chip
+                            close
+                            @input="removeType(data.item)"
+                            :selected="data.selected"
+                          >
+                            <strong>{{ data.item }}</strong>&nbsp;
+                          </v-chip>
+                        </template>
+                      </v-select>
                     </v-flex>
                     <v-flex xs12 sm6>
                       <v-text-field
@@ -46,8 +51,8 @@
                         v-bind:data-vv-as="$t('day_due')"
                         data-vv-name="day_due"
                         required
-                        mask="##"
-                        :rules="[rules.dayWeek]">
+                        :rules="[rules.dayWeek]"
+                        >
                       </v-text-field>
                     </v-flex>
                     <v-spacer></v-spacer>
@@ -77,13 +82,13 @@ export default {
   name: "NewExpense",
   data() {
     return {
-      types: this.$enum.getTextValue("typesExpenses"),
       lastParcelDateMenu: false,
       rules: {
         dayWeek: value => {
           const maxDayWeek = 31;
           return (
-            !(value > maxDayWeek) || this.$t("value_is_not_a_day_of_the_week")
+            (!!parseInt(value) && !(value > maxDayWeek)) ||
+            this.$t("the_day_of_expiration_must_be_a_number_between_1_and_31")
           );
         }
       }
@@ -106,6 +111,9 @@ export default {
       set(expense) {
         this.$store.commit("setExpense", expense);
       }
+    },
+    types() {
+      return this.$store.getters.typesExpenses;
     },
     dialog: {
       get() {
@@ -133,14 +141,19 @@ export default {
     clearExpense() {
       this.expense.id = null;
       this.expense.description = null;
-      this.type = null;
-      this.dayDue = null;
-      this.lastParcelDate = null;
+      this.expense.types = [];
+      this.expense.dayDue = null;
+      this.expense.lastParcelDate = null;
       this.clearErrors();
     },
     clearErrors() {
       this.$nextTick().then(() => {
         this.errors.clear();
+      });
+    },
+    removeType(type) {
+      this.expense.types = this.expense.types.filter(m => {
+        return m != type;
       });
     }
   }

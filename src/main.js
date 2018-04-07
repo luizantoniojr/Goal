@@ -1,17 +1,14 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import colors from 'vuetify/es5/util/colors'
 import App from './App'
 import router from './router'
-
 import store from './store'
-
 import VuexI18n from 'vuex-i18n'
 import translations_ptbr from './translations/pt-br'
 import translations_en from './translations/en'
-
 import VeeValidate from 'vee-validate'
 import VeeValidate_ptbr from 'vee-validate/dist/locale/pt_BR'
-
 import Enum from './plugins/enum'
 import Moment from './plugins/moment'
 import Guid from './plugins/guid'
@@ -20,7 +17,13 @@ import firebase from 'firebase'
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
 Vue.config.productionTip = false
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    warnning: colors.orange.lighten3,
+    error: colors.red.lighten3,
+    success: colors.green.lighten3
+  }
+})
 Vue.use(VeeValidate)
 Vue.use(VuexI18n.plugin, store)
 Vue.i18n.add('pt-br', translations_ptbr)
@@ -58,11 +61,15 @@ firebase.auth().onAuthStateChanged((user) => {
     },
     mounted() {
       this.$store.dispatch("getGoals");
+      this.$store.dispatch("getExpenses");
       // this.registerServiceWorker();
     },
     watch: {
       "$store.state.goals"() {
         this.$store.dispatch("saveGoals");
+      },
+      "$store.state.expenses"() {
+        this.$store.dispatch("saveExpenses");
       },
     },
     methods: {

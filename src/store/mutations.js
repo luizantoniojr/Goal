@@ -29,6 +29,12 @@ export default {
         });
         state.expenses.push(Object.assign({}, expense))
     },
+    setExpense: (state, expense) => {
+        state.expense = Object.assign({}, expense);
+    },
+    setExpenses: (state, expenses) => {
+        state.expenses = expenses || new Array();
+    },
     setDialogNewExpense: (state, dialogNewExpense) => {
         state.dialogNewExpense = dialogNewExpense;
     },
