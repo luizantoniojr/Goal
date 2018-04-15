@@ -76,7 +76,7 @@ export default {
       var dayNow = parseInt(this.$moment().format("D"));
       if (dayDue == dayNow) {
         return "error";
-      } else if (dayDue <= dayNow + 7) {
+      } else if (dayDue > dayNow && dayDue <= dayNow + 7) {
         return "warnning";
       } else {
         return "success";

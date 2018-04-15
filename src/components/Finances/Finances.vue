@@ -20,6 +20,9 @@
           <v-tabs-content id="tab-expenses">
            <v-expenses></v-expenses>
           </v-tabs-content>
+          <v-tabs-content id="tab-resume">
+           <v-resume></v-resume>
+          </v-tabs-content>
         </v-tabs-items>
       </v-tabs>
     </v-flex>
@@ -28,14 +31,17 @@
 
 <script>
 import expenses from "./Expenses";
+import resume from "./Resume";
 
 export default {
   name: "Finances",
   components: {
-    "v-expenses": expenses
+    "v-expenses": expenses,
+    "v-resume": resume
   }
 };
 </script>
 
 <style scoped>
+
 </style>
