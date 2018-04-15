@@ -22,6 +22,32 @@
                         required>
                       </v-text-field>
                     </v-flex>
+                    <v-flex xs12 sm6>
+                      <v-text-field
+                        v-bind:label="$t('value')"
+                        v-model="expense.value"
+                        v-validate="'required'"
+                        :error-messages="errors.collect('value')"
+                        v-bind:data-vv-as="$t('value')"
+                        data-vv-name="value"
+                        required
+                        maxlength="10"
+                        @blur="valueOnBlur">
+                      </v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6>
+                      <v-text-field
+                        v-bind:label="$t('day_due')"
+                        v-model="expense.dayDue"
+                        v-validate="'required'"
+                        :error-messages="errors.collect('day_due')"
+                        v-bind:data-vv-as="$t('day_due')"
+                        data-vv-name="day_due"
+                        required
+                        :rules="[rules.dayWeek]"
+                        >
+                      </v-text-field>
+                    </v-flex>
                     <v-flex xs12>
                       <v-select
                         :items="types"
@@ -41,19 +67,6 @@
                           </v-chip>
                         </template>
                       </v-select>
-                    </v-flex>
-                    <v-flex xs12 sm6>
-                      <v-text-field
-                        v-bind:label="$t('day_due')"
-                        v-model="expense.dayDue"
-                        v-validate="'required'"
-                        :error-messages="errors.collect('day_due')"
-                        v-bind:data-vv-as="$t('day_due')"
-                        data-vv-name="day_due"
-                        required
-                        :rules="[rules.dayWeek]"
-                        >
-                      </v-text-field>
                     </v-flex>
                     <v-spacer></v-spacer>
                     <v-flex xs12 sm6>
@@ -78,6 +91,7 @@
 </template>
 
 <script>
+
 export default {
   name: "NewExpense",
   data() {
@@ -139,11 +153,14 @@ export default {
       }
     },
     clearExpense() {
-      this.expense.id = null;
-      this.expense.description = null;
-      this.expense.types = [];
-      this.expense.dayDue = null;
-      this.expense.lastParcelDate = null;
+      this.expense = {
+        id: null,
+        description: null,
+        value: null,
+        types: [],
+        dayDue: null,
+        lastParcelDate: null
+      };
       this.clearErrors();
     },
     clearErrors() {
@@ -155,6 +172,9 @@ export default {
       this.expense.types = this.expense.types.filter(m => {
         return m != type;
       });
+    },
+    valueOnBlur() {
+      this.expense.value = this.$numeral(this.expense.value).format("0,0.00");
     }
   }
 };

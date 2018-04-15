@@ -9,10 +9,11 @@ export default {
     conclusion: null,
     reminder: null
   },
-  expenses:[],
+  expenses: [],
   expense: {
     id: null,
     description: null,
+    value: null,
     types: [],
     dayDue: null,
     lastParcelDate: null
