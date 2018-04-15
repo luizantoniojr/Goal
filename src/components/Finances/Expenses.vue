@@ -1,6 +1,6 @@
 <template>
     <v-card>
-      <v-flex xs4 ml-3 v-show="hasExpenses">
+      <v-flex xs12 md4 v-show="hasExpenses">
         <v-select
           :items="types"
           v-model="filter.type"

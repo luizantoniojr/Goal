@@ -39,12 +39,11 @@
                       <v-text-field
                         v-bind:label="$t('day_due')"
                         v-model="expense.dayDue"
-                        v-validate="'required'"
+                        v-validate="'required|between:1,31'"
                         :error-messages="errors.collect('day_due')"
                         v-bind:data-vv-as="$t('day_due')"
                         data-vv-name="day_due"
                         required
-                        :rules="[rules.dayWeek]"
                         >
                       </v-text-field>
                     </v-flex>
@@ -97,15 +96,6 @@ export default {
   data() {
     return {
       lastParcelDateMenu: false,
-      rules: {
-        dayWeek: value => {
-          const maxDayWeek = 31;
-          return (
-            (!!parseInt(value) && !(value > maxDayWeek)) ||
-            this.$t("the_day_of_expiration_must_be_a_number_between_1_and_31")
-          );
-        }
-      }
     };
   },
   watch: {

@@ -38,7 +38,6 @@ export default {
     "type":"Tipo",
     "filter_for_a_type_of_expense": "Filtre por tipo de despesa",
     "types_expenses":"Tipo de despesa",
-    "the_day_of_expiration_must_be_a_number_between_1_and_31":"O dia de vencimento deve ser um número entre 1 e 31",
     "value":"Valor",
     "the_value_field_is_required":"O campo Valor é obrigatório"
 
