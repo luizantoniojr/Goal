@@ -39,6 +39,7 @@ export default {
     "filter_for_a_type_of_expense": "Filtre por tipo de despesa",
     "types_expenses":"Tipo de despesa",
     "value":"Valor",
-    "the_value_field_is_required":"O campo Valor é obrigatório"
-
+    "the_value_field_is_required":"O campo Valor é obrigatório",
+    "income":"Renda",
+    "total_expenses": "Total de despesas"
 }

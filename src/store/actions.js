@@ -38,14 +38,14 @@ export default {
                 commit('setExpenses', snapshot.val());
             });;
     },
-    saveSalary({ state }) {
+    saveIncome({ state }) {
         if (state.user.uid)
-            firebase.database().ref('salary/' + state.user.uid).set(state.salary);
+            firebase.database().ref('income/' + state.user.uid).set(state.income);
     },
-    getSalary({ commit, state }) {
+    getIncome({ commit, state }) {
         if (state.user)
-            firebase.database().ref('salary/' + state.user.uid).on('value', function (snapshot) {
-                commit('setSalary', snapshot.val());
+            firebase.database().ref('income/' + state.user.uid).on('value', function (snapshot) {
+                commit('setIncome', snapshot.val());
             });;
     },
 }

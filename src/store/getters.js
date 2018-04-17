@@ -8,6 +8,6 @@ export default {
             typesConcated = typesConcated.concat(m)
         });
 
-        return typesConcated.filter((el, i, a) => i === a.indexOf(el))
+        return typesConcated.filter((el, i, a) => i === a.indexOf(el)).sort()
     }
 }

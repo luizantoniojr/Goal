@@ -18,7 +18,7 @@ export default {
     dayDue: null,
     lastParcelDate: null
   },
-  salary: null,
+  income: null,
   dialogNewGoal: false,
   dialogNewExpense: false,
   user: null,

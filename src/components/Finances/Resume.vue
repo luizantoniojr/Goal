@@ -4,7 +4,7 @@
        <v-list three-line>
         <v-list-tile avatar ripple class="grey lighten-3 expense-item">
           <v-list-tile-content>
-            <v-list-tile-title>{{ $t('total') }}</v-list-tile-title>
+            <v-list-tile-title>{{ $t('total_expenses') }}</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-content class="align-end">{{ total }}</v-list-tile-content>
         </v-list-tile>
@@ -12,14 +12,15 @@
       <v-list three-line>
           <v-list-tile avatar ripple class="grey lighten-3 expense-item">
             <v-list-tile-content>
-              <v-list-tile-title>{{ $t('salary') }}</v-list-tile-title>
+              <v-list-tile-title>{{ $t('income') }}</v-list-tile-title>
             </v-list-tile-content>
               <v-list-tile-content class="align-end">
-                  <v-text-field :placeholder="$t('value')" class="salary"
-                    v-model="salary" maxlength="10" @blur="salaryOnBlur"
-                    :append-icon="salaryInvisible ? 'visibility' : 'visibility_off'"
-                    :append-icon-cb="() => (salaryInvisible = !salaryInvisible)"
-                    :type="salaryInvisible ? 'password' : 'text'"
+                  <v-text-field :placeholder="$t('value')" class="income"
+                    name="income"
+                    v-model="income" maxlength="10" @blur="incomeOnBlur"
+                    :append-icon="incomeInvisible ? 'visibility' : 'visibility_off'"
+                    :append-icon-cb="() => (incomeInvisible = !incomeInvisible)"
+                    :type="incomeInvisible ? 'password' : 'text'"
                   ></v-text-field>
               </v-list-tile-content>
           </v-list-tile>
@@ -57,7 +58,7 @@ export default {
   components: {},
   data: () => {
     return {
-      salaryInvisible: true,
+      incomeInvisible: true,
       type: null
     };
   },
@@ -71,15 +72,15 @@ export default {
     },
     balance() {
       var balance =
-        this.$numeral(this.salary).value() - this.$numeral(this.total).value();
+        this.$numeral(this.income).value() - this.$numeral(this.total).value();
       return this.$numeral(balance).format("0,0.00");
     },
-    salary: {
+    income: {
       get() {
-        return this.$store.state.salary;
+        return this.$store.state.income;
       },
-      set(salary) {
-        this.$store.commit("setSalary", salary);
+      set(income) {
+        this.$store.commit("setIncome", income);
       }
     },
     types() {
@@ -101,19 +102,19 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("getSalary");
+    this.$store.dispatch("getIncome");
   },
   methods: {
-    salaryOnBlur() {
-      this.salary = this.$numeral(this.salary).format("0,0.00");
-      this.$store.dispatch("saveSalary");
+    incomeOnBlur() {
+      this.income = this.$numeral(this.income).format("0,0.00");
+      this.$store.dispatch("saveIncome");
     }
   }
 };
 </script>
 
 <style scoped>
-.salary {
+.income {
   width: 110px;
 }
 
