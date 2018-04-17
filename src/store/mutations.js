@@ -38,4 +38,7 @@ export default {
     setDialogNewExpense: (state, dialogNewExpense) => {
         state.dialogNewExpense = dialogNewExpense;
     },
+    setSalary: (state, salary) => {
+        state.salary = salary;
+    }
 }

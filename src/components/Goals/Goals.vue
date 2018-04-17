@@ -89,6 +89,14 @@ export default {
       );
     }
   },
+  watch: {
+    "$store.state.goals"() {
+      this.$store.dispatch("saveGoals");
+    }
+  },
+  mounted() {
+    this.$store.dispatch("getGoals");
+  },
   methods: {
     checkLevelAndState(level) {
       return item => {

@@ -35,11 +35,6 @@
 export default {
   name: "Resume",
   components: {},
-  data() {
-    return {
-      salary: null
-    };
-  },
   computed: {
     total() {
       var total = 0;
@@ -52,11 +47,23 @@ export default {
       var balance =
         this.$numeral(this.salary).value() - this.$numeral(this.total).value();
       return this.$numeral(balance).format("0,0.00");
+    },
+    salary: {
+      get() {
+        return this.$store.state.salary;
+      },
+      set(salary) {
+        this.$store.commit("setSalary", salary);
+      }
     }
+  },
+  mounted() {
+    this.$store.dispatch("getSalary");
   },
   methods: {
     salaryOnBlur() {
       this.salary = this.$numeral(this.salary).format("0,0.00");
+      this.$store.dispatch("saveSalary");
     }
   }
 };

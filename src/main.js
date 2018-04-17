@@ -62,17 +62,7 @@ firebase.auth().onAuthStateChanged((user) => {
       this.$store.commit('setUser', user);
     },
     mounted() {
-      this.$store.dispatch("getGoals");
-      this.$store.dispatch("getExpenses");
       // this.registerServiceWorker();
-    },
-    watch: {
-      "$store.state.goals"() {
-        this.$store.dispatch("saveGoals");
-      },
-      "$store.state.expenses"() {
-        this.$store.dispatch("saveExpenses");
-      },
     },
     methods: {
       setVeevalidatorLocale(culture) {

@@ -37,5 +37,15 @@ export default {
             firebase.database().ref('expenses/' + state.user.uid).on('value', function (snapshot) {
                 commit('setExpenses', snapshot.val());
             });;
-    }
+    },
+    saveSalary({ state }) {
+        if (state.user.uid)
+            firebase.database().ref('salary/' + state.user.uid).set(state.salary);
+    },
+    getSalary({ commit, state }) {
+        if (state.user)
+            firebase.database().ref('salary/' + state.user.uid).on('value', function (snapshot) {
+                commit('setSalary', snapshot.val());
+            });;
+    },
 }

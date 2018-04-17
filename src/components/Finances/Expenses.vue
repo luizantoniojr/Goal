@@ -53,6 +53,14 @@ export default {
     hasExpenses() {
       return this.filteredExpenses.length > 0;
     }
+  },
+  watch: {
+    "$store.state.expenses"() {
+      this.$store.dispatch("saveExpenses");
+    }
+  },
+  mounted() {
+    this.$store.dispatch("getExpenses");
   }
 };
 </script>
