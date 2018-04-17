@@ -15,7 +15,12 @@
               <v-list-tile-title>{{ $t('salary') }}</v-list-tile-title>
             </v-list-tile-content>
               <v-list-tile-content class="align-end">
-                  <v-text-field :placeholder="$t('value')" v-model="salary" maxlength="10" @blur="salaryOnBlur"></v-text-field>
+                  <v-text-field :placeholder="$t('value')" 
+                    v-model="salary" maxlength="10" @blur="salaryOnBlur"
+                    :append-icon="salaryInvisible ? 'visibility' : 'visibility_off'"
+                    :append-icon-cb="() => (salaryInvisible = !salaryInvisible)"
+                    :type="salaryInvisible ? 'password' : 'text'"
+                  ></v-text-field>
               </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -35,6 +40,11 @@
 export default {
   name: "Resume",
   components: {},
+  data: () => {
+    return {
+      salaryInvisible: true
+    };
+  },
   computed: {
     total() {
       var total = 0;
@@ -71,6 +81,6 @@ export default {
 
 <style scoped>
 .input-group {
-  width: 72px;
+  width: 110px;
 }
 </style>
