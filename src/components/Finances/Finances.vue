@@ -23,6 +23,9 @@
           <v-tabs-content id="tab-resume">
            <v-resume></v-resume>
           </v-tabs-content>
+          <v-tabs-content id="tab-suggested-expenses">
+            <v-suggested-expenses></v-suggested-expenses>
+          </v-tabs-content>
         </v-tabs-items>
       </v-tabs>
     </v-flex>
@@ -32,12 +35,14 @@
 <script>
 import expenses from "./Expenses";
 import resume from "./Resume";
+import suggestedExpenses from "./SuggestedExpenses";
 
 export default {
   name: "Finances",
   components: {
     "v-expenses": expenses,
-    "v-resume": resume
+    "v-resume": resume,
+    "v-suggested-expenses": suggestedExpenses
   }
 };
 </script>

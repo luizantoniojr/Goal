@@ -41,5 +41,7 @@ export default {
     "value":"Valor",
     "the_value_field_is_required":"O campo Valor é obrigatório",
     "income":"Renda",
-    "total_expenses": "Total de despesas"
+    "total_expenses": "Total de despesas",
+    "week":"Semana",
+    "suggested_spending_this_month":"Gasto sugerido este mês"
 }
