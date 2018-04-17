@@ -10,7 +10,7 @@
     "unit": "karma start test/unit/karma.conf.js",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "build": "node build/build.js"
+    "build": "node build/build.js && firebase deploy"
   },
   "dependencies": {
     "firebase": "^4.8.2",
