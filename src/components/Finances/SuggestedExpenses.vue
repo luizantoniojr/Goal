@@ -1,5 +1,17 @@
 <template>
-  <canvas id="chart"></canvas>
+  <div>
+    <v-flex md4 xs12>
+      <v-select
+        class="expense-type"
+        :items="types"
+        v-model="type"
+        :placeholder="$t('select_an_expense_type')"
+        single-line
+        clearable
+      ></v-select>
+    </v-flex>
+    <canvas id="chart"></canvas>
+  </div>
 </template>
 
 <script>
@@ -11,7 +23,9 @@ export default {
     return {
       incomeInvisible: true,
       type: null,
-      chart: null
+      chart: null,
+      suggestedExpensesSoFar: null,
+      expensesRemainingUntilEndMonth: null
     };
   },
   computed: {
@@ -21,6 +35,24 @@ export default {
         total = total + this.$numeral(expense.value).value();
       }
       return this.$numeral(total).format("0,0.00");
+    },
+    types() {
+      return this.$store.getters.typesExpenses;
+    },
+    income: {
+      get() {
+        return this.$store.state.income;
+      },
+      set(income) {
+        this.$store.commit("setIncome", income);
+      }
+    }
+  },
+  watch: {
+    type(type) {
+      if (type) this.generateData();
+      else this.clearData();
+      this.chartInit();
     }
   },
   mounted() {
@@ -28,6 +60,68 @@ export default {
     this.getWeeks();
   },
   methods: {
+    generateData() {
+      var dayNow = this.getDayNow();
+      var daysNumberMonth = this.getDaysNumberMonth();
+      var expensesNow = this.getExpensesByTypeAndDayDue(dayNow);
+      var total = this.getExpenseTotal();
+      var balance = this.getBalance(total);
+
+      var balancePeerDay = balance / daysNumberMonth;
+      var balancePeerDayNow = balancePeerDay * dayNow;
+      var valueExpenseByTypeNow = this.sumExpensesValue(expensesNow);
+      this.suggestedExpensesSoFar = balancePeerDayNow + valueExpenseByTypeNow;
+
+      var expensesByType = this.getExpensesByType();
+      var valueExpensesByTypeEndMonth = this.sumExpensesValue(expensesByType);
+      var maxExpensesValue = balance + valueExpensesByTypeEndMonth;
+
+      this.expensesRemainingUntilEndMonth = maxExpensesValue - this.suggestedExpensesSoFar;
+    },
+    getDayNow() {
+      return this.$moment().format("DD") * 1;
+    },
+    getDaysNumberMonth() {
+      return (
+        this.$moment()
+          .endOf("month")
+          .format("DD") * 1
+      );
+    },
+    getExpensesByTypeAndDayDue(dayNow) {
+      return this.$store.state.expenses.filter(expense => {
+        return (
+          expense.dayDue <= dayNow &&
+          expense.types.some(type => {
+            return type == this.type;
+          })
+        );
+      });
+    },
+    getExpensesByType() {
+      return this.$store.state.expenses.filter(expense => {
+        return expense.types.some(type => {
+          return type == this.type;
+        });
+      });
+    },
+    getExpenseTotal() {
+      return this.$store.state.expenses.reduce((a, b) => {
+        return this.$numeral(a).value() + this.$numeral(b.value).value();
+      }, 0);
+    },
+    getBalance(total) {
+      return this.$numeral(this.income).value() - total;
+    },
+    sumExpensesValue(expenses) {
+      return expenses.reduce((a, b) => {
+        return this.$numeral(a).value() + this.$numeral(b.value).value();
+      }, 0);
+    },
+    clearData() {
+      this.suggestedExpensesSoFar = null;
+      this.expensesRemainingUntilEndMonth = null;
+    },
     getWeeksNumber() {
       return Math.round(
         this.$moment()
@@ -45,33 +139,45 @@ export default {
       return weeks;
     },
     chartInit() {
-      this.chart = new Chart(this.$el, {
+      this.chart = new Chart(document.getElementById("chart"), {
         type: "doughnut",
         data: this.getChartData(),
-        options: {
-          title: {
-            display: true,
-            text: this.$t('suggested_spending_this_month')
+        options: this.getChartOptions()
+      });
+    },
+    getChartOptions() {
+      return {
+        title: {
+          display: true,
+          text: this.$t("suggested_spending_this_month")
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          callbacks: {
+            label: (tooltipItem, data) => {
+              var value = data.datasets[0].data[tooltipItem.index];
+              return `${data.labels[tooltipItem.index]} ${this.$numeral(
+                value
+              ).format("$0,0.00")}`;
+            }
           }
         }
-      });
+      };
     },
     getChartData() {
       return {
         datasets: [
           {
-            data: [10, 20, 30, 40],
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.8)",
-              "rgba(54, 162, 235, 0.8)",
-              "rgba(255, 206, 86, 0.8)",
-              "rgba(75, 192, 192, 0.8)",
-              "rgba(153, 102, 255, 0.8)",
-              "rgba(255, 159, 64, 0.8)"
-            ]
+            data: [this.suggestedExpensesSoFar, this.expensesRemainingUntilEndMonth],
+            backgroundColor: ["#00E5FF", "#FFFF00"]
           }
         ],
-        labels: this.getWeeks()
+        labels: [
+          this.$t("the_suggested_expenditure_for_this_week_is"),
+          this.$t("the_remaining_balance_in_the_month_is")
+        ]
       };
     }
   }
@@ -79,11 +185,5 @@ export default {
 </script>
 
 <style scoped>
-.income {
-  width: 110px;
-}
 
-.expense-type {
-  width: 160px;
-}
 </style>

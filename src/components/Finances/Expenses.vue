@@ -1,10 +1,10 @@
 <template>
-    <v-card>
+    <div>
       <v-flex xs12 md4 v-show="hasExpenses">
         <v-select
           :items="types"
           v-model="filter.type"
-          :label="$t('filter_for_a_type_of_expense')"
+          :placeholder="$t('filter_for_a_type_of_expense')"
           single-line
           clearable
         ></v-select>
@@ -16,7 +16,7 @@
         </template>
       </v-flex>
       <v-new-expense></v-new-expense>
-    </v-card>
+    </div>
 </template>
 
 <script>

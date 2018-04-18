@@ -1,6 +1,5 @@
 <template>
-    <v-card>
-      <v-flex>
+    <v-flex mt-2>
        <v-list three-line>
         <v-list-tile avatar ripple class="grey lighten-3 expense-item">
           <v-list-tile-content>
@@ -48,8 +47,7 @@
           <v-list-tile-content class="align-end">{{ totalByExpenseType }}</v-list-tile-content>
         </v-list-tile>
        </v-list>
-      </v-flex>
-    </v-card>
+    </v-flex>
 </template>
 
 <script>
@@ -88,16 +86,14 @@ export default {
     },
     totalByExpenseType() {
       if (!this.type) return this.total;
-
-      var total = 0;
       var expensesByType = this.$store.state.expenses.filter(expense => {
         return expense.types.some(type => {
           return type === this.type;
         });
       });
-      for (let expense of expensesByType) {
-        total = total + this.$numeral(expense.value).value();
-      }
+      var total = expensesByType.reduce((a, b) => {
+        return this.$numeral(a).value() + this.$numeral(b.value).value();
+      }, 0);
       return this.$numeral(total).format("0,0.00");
     }
   },
