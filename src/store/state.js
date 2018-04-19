@@ -22,5 +22,6 @@ export default {
   dialogNewGoal: false,
   dialogNewExpense: false,
   user: null,
+  typeSuggestedExpenses: null,
   culture: 'pt-br'
 }

@@ -44,7 +44,7 @@ export default {
     "total_expenses": "Total de despesas",
     "week": "Semana",
     "suggested_spending_this_month": "Gasto sugerido este mês",
-    "the_suggested_expenditure_for_this_week_is": "O gasto sugerido para está semana é",
-    "the_remaining_balance_in_the_month_is": "O saldo restante no mês é",
+    "expenditure suggested to date": "Gasto sugerido até hoje",
+    "remaining_balance_in_the_month": "Saldo restante no mês",
     "select_an_expense_type": "Selecione um tipo de despesa"
 }

@@ -40,5 +40,8 @@ export default {
     },
     setIncome: (state, income) => {
         state.income = income;
+    },
+    setTypeSuggestedExpenses: (state, typeSuggestedExpenses) => {
+        state.typeSuggestedExpenses = typeSuggestedExpenses
     }
 }

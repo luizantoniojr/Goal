@@ -22,7 +22,6 @@ export default {
   data: () => {
     return {
       incomeInvisible: true,
-      type: null,
       chart: null,
       suggestedExpensesSoFar: null,
       expensesRemainingUntilEndMonth: null
@@ -39,6 +38,17 @@ export default {
     types() {
       return this.$store.getters.typesExpenses;
     },
+    type: {
+      get() {
+        return this.$store.state.typeSuggestedExpenses;
+      },
+      set(typeSuggestedExpenses) {
+        this.$store.dispatch(
+          "saveTypeSuggestedExpenses",
+          typeSuggestedExpenses
+        );
+      }
+    },
     income: {
       get() {
         return this.$store.state.income;
@@ -52,10 +62,11 @@ export default {
     type(type) {
       if (type) this.generateData();
       else this.clearData();
-      this.chartInit();
+      setTimeout(this.chartInit, 2000);
     }
   },
   mounted() {
+    this.$store.dispatch("getTypeSuggestedExpenses");
     this.chartInit();
     this.getWeeks();
   },
@@ -76,7 +87,8 @@ export default {
       var valueExpensesByTypeEndMonth = this.sumExpensesValue(expensesByType);
       var maxExpensesValue = balance + valueExpensesByTypeEndMonth;
 
-      this.expensesRemainingUntilEndMonth = maxExpensesValue - this.suggestedExpensesSoFar;
+      this.expensesRemainingUntilEndMonth =
+        maxExpensesValue - this.suggestedExpensesSoFar;
     },
     getDayNow() {
       return this.$moment().format("DD") * 1;
@@ -158,7 +170,7 @@ export default {
           callbacks: {
             label: (tooltipItem, data) => {
               var value = data.datasets[0].data[tooltipItem.index];
-              return `${data.labels[tooltipItem.index]} ${this.$numeral(
+              return `${data.labels[tooltipItem.index]}: ${this.$numeral(
                 value
               ).format("$0,0.00")}`;
             }
@@ -170,13 +182,16 @@ export default {
       return {
         datasets: [
           {
-            data: [this.suggestedExpensesSoFar, this.expensesRemainingUntilEndMonth],
+            data: [
+              this.suggestedExpensesSoFar,
+              this.expensesRemainingUntilEndMonth
+            ],
             backgroundColor: ["#00E5FF", "#FFFF00"]
           }
         ],
         labels: [
-          this.$t("the_suggested_expenditure_for_this_week_is"),
-          this.$t("the_remaining_balance_in_the_month_is")
+          this.$t("expenditure suggested to date"),
+          this.$t("remaining_balance_in_the_month")
         ]
       };
     }

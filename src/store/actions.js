@@ -48,4 +48,14 @@ export default {
                 commit('setIncome', snapshot.val());
             });;
     },
+    saveTypeSuggestedExpenses({ state }, typeSuggestedExpenses) {
+        if (state.user.uid)
+            firebase.database().ref('suggestedExpenses/type/' + state.user.uid).set(typeSuggestedExpenses);
+    },
+    getTypeSuggestedExpenses({ commit, state }) {
+        if (state.user)
+            firebase.database().ref('suggestedExpenses/type/' + state.user.uid).on('value', function (snapshot) {
+                commit('setTypeSuggestedExpenses', snapshot.val());
+            });
+    }
 }
