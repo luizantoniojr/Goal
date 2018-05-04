@@ -16,7 +16,8 @@ export default {
     value: null,
     types: [],
     dayDue: null,
-    lastParcelDate: null
+    lastParcelDate: null,
+    paymentDates: []
   },
   income: null,
   dialogNewGoal: false,

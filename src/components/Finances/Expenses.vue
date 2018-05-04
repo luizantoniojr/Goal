@@ -55,8 +55,11 @@ export default {
     }
   },
   watch: {
-    "$store.state.expenses"() {
-      this.$store.dispatch("saveExpenses");
+    "$store.state.expenses": {
+      handler() {
+        this.$store.dispatch("saveExpenses");
+      },
+      deep: true
     }
   },
   mounted() {

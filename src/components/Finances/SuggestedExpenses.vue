@@ -10,7 +10,7 @@
         clearable
       ></v-select>
     </v-flex>
-    <canvas id="chart"></canvas>
+    <canvas id="chart" height="400" width="800"></canvas>
   </div>
 </template>
 

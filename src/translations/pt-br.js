@@ -46,5 +46,6 @@ export default {
     "suggested_spending_this_month": "Gasto sugerido este mês",
     "expenditure suggested to date": "Gasto sugerido até hoje",
     "remaining_balance_in_the_month": "Saldo restante no mês",
-    "select_an_expense_type": "Selecione um tipo de despesa"
+    "select_an_expense_type": "Selecione um tipo de despesa",
+    "check_whether_payment_has_been_made_or_not": "Marque se o pagamento foi realizado ou não"
 }

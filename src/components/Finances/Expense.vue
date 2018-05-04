@@ -2,8 +2,10 @@
  <v-list three-line>
     <v-list-tile avatar ripple v-bind:key="index" class="grey lighten-3 expense-item">
       <v-list-tile-content>
-        <v-list-tile-title>{{ expense.description }}</v-list-tile-title>
-        <v-list-tile-sub-title>{{ expense.types.toString() }}</v-list-tile-sub-title>
+        <v-list-tile-title>
+          <v-checkbox v-model="payment" :label="expense.description" slot="activator" :title="$t('check_whether_payment_has_been_made_or_not')" ></v-checkbox>
+        </v-list-tile-title>
+        <v-list-tile-sub-title class="ml-4 pl-2">{{ expense.types.toString() }}</v-list-tile-sub-title>
       </v-list-tile-content>
       <v-list-tile-action>
       <v-list-tile-action-text>
@@ -57,6 +59,30 @@ export default {
     index: {
       type: Number,
       required: true
+    }
+  },
+  computed: {
+    payment: {
+      get() {
+        return (
+          !!this.expense.paymentDates &&
+          this.expense.paymentDates.some(payment => {
+            return payment == this.$moment().format("YYYYMM");
+          })
+        );
+      },
+      set(payment) {
+        var expenseClone = Object.assign({}, this.expense);
+        var yearMonthNow = this.$moment().format("YYYYMM");
+        if (!expenseClone.paymentDates) expenseClone.paymentDates = [];
+        if (payment) expenseClone.paymentDates.push(yearMonthNow);
+        else
+          expenseClone.paymentDates =
+            expenseClone.paymentDates.filter(payment => {
+              return payment != yearMonthNow;
+            }) || new Array();
+        this.$store.commit("editExpense", expenseClone);
+      }
     }
   },
   methods: {

@@ -24,10 +24,13 @@ export default {
         state.expenses.push(Object.assign({}, expense))
     },
     editExpense: (state, expense) => {
+        var index = state.expenses.findIndex(item => {
+            return item.id == expense.id;
+        });
         state.expenses = state.expenses.filter(item => {
             return item.id != expense.id
         });
-        state.expenses.push(Object.assign({}, expense))
+        state.expenses.splice(index, 0, Object.assign({}, expense));
     },
     setExpense: (state, expense) => {
         state.expense = Object.assign({}, expense);
