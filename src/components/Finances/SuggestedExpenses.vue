@@ -10,10 +10,12 @@
         clearable
       ></v-select>
     </v-flex>
-    <canvas id="chart" height="400" width="800"></canvas>
+    <h3>{{$t("expenditure suggested to date")}}: {{$numeral(suggestedExpensesSoFar).format("$0,0.00")}}</h3>
+    <h3>{{$t("remaining_balance_in_the_month")}}: {{$numeral(expensesRemainingUntilEndMonth).format("$0,0.00")}}</h3>
+    <!-- <canvas id="chart" height="400" width="800"></canvas> -->
   </div>
 </template>
-
+x
 <script>
 import Chart from "chart.js";
 export default {
@@ -62,13 +64,12 @@ export default {
     type(type) {
       if (type) this.generateData();
       else this.clearData();
-      setTimeout(this.chartInit, 2000);
+      setTimeout(this.generateData, 2000);
     }
   },
   mounted() {
     this.$store.dispatch("getTypeSuggestedExpenses");
-    this.chartInit();
-    this.getWeeks();
+    this.generateData();
   },
   methods: {
     generateData() {
@@ -133,22 +134,6 @@ export default {
     clearData() {
       this.suggestedExpensesSoFar = null;
       this.expensesRemainingUntilEndMonth = null;
-    },
-    getWeeksNumber() {
-      return Math.round(
-        this.$moment()
-          .endOf("month")
-          .format("DD") *
-          1 /
-          7
-      );
-    },
-    getWeeks() {
-      var weeks = [];
-      for (let i = 1; i <= this.getWeeksNumber(); i++) {
-        weeks.push(`${i}º ${this.$t("week")}`);
-      }
-      return weeks;
     },
     chartInit() {
       this.chart = new Chart(document.getElementById("chart"), {
